@@ -39,8 +39,8 @@ const ventures = [
 ]
 
 export default function Home() {
-  const [mousePos, setMousePos] = useState({ x: -100, y: -100 })
-  const [followerPos, setFollowerPos] = useState({ x: -100, y: -100 })
+  const [mousePos, setMousePos] = useState({ x: -200, y: -200 })
+  const [followerPos, setFollowerPos] = useState({ x: -200, y: -200 })
   const [hoveredVenture, setHoveredVenture] = useState<string | null>(null)
   const [time, setTime] = useState('')
   const containerRef = useRef<HTMLDivElement>(null)
@@ -51,10 +51,16 @@ export default function Home() {
   useEffect(() => {
     const move = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY })
-      setTimeout(() => setFollowerPos({ x: e.clientX, y: e.clientY }), 80)
+    }
+    const moveFollower = (e: MouseEvent) => {
+      setFollowerPos({ x: e.clientX, y: e.clientY })
     }
     window.addEventListener('mousemove', move)
-    return () => window.removeEventListener('mousemove', move)
+    window.addEventListener('mousemove', moveFollower)
+    return () => {
+      window.removeEventListener('mousemove', move)
+      window.removeEventListener('mousemove', moveFollower)
+    }
   }, [])
 
   // Dubai time
@@ -79,11 +85,11 @@ export default function Home() {
       {/* Custom Cursor */}
       <div
         className="cursor"
-        style={{ transform: `translate(${mousePos.x - 4}px, ${mousePos.y - 4}px)` }}
+        style={{ left: mousePos.x, top: mousePos.y }}
       />
       <div
         className="cursor-follower"
-        style={{ transform: `translate(${followerPos.x - 16}px, ${followerPos.y - 16}px)` }}
+        style={{ left: followerPos.x, top: followerPos.y }}
       />
 
       {/* Scroll progress line */}
@@ -101,9 +107,7 @@ export default function Home() {
           transition={{ duration: 0.6, ease: 'easeOut' }}
           className="fixed top-0 left-0 right-0 z-40 flex justify-between items-center px-8 py-6 mix-blend-difference"
         >
-          <span style={{ fontFamily: 'Bebas Neue', fontSize: '1.4rem', letterSpacing: '0.1em', color: 'var(--white)' }}>
-            beatLabs
-          </span>
+          <img src="/logo.jpg" alt="beatLabs" style={{ height: '2.2rem', width: 'auto', filter: 'invert(1) brightness(2)' }} />
           <div className="flex items-center gap-8">
             <span style={{ fontSize: '0.7rem', color: 'var(--muted)', letterSpacing: '0.15em', fontFamily: 'Syne' }}>
               DXB {time}
@@ -377,7 +381,7 @@ export default function Home() {
               lineHeight: 1.6,
               fontWeight: 400,
             }}>
-              beatLabs is a venture studio based in Ajman, UAE. We build digital products —
+              beatLabs is a venture studio based in Dubai, UAE. We build digital products —
               apps, platforms, and creative studios — that solve real problems and reach real people.
               Each venture is independent, focused, and built to scale.
             </p>
@@ -399,7 +403,7 @@ export default function Home() {
               beatLabs
             </span>
             <span style={{ fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.15em', fontFamily: 'Syne' }}>
-              © 2026 — AJMAN, UAE
+              © 2026 — DUBAI, UAE
             </span>
           </div>
           <div className="flex flex-col items-end gap-1">

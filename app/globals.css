@@ -32,30 +32,29 @@ body {
 
 /* Custom cursor */
 .cursor {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   background: var(--lime);
   border-radius: 50%;
   position: fixed;
-  top: 0;
-  left: 0;
   pointer-events: none;
   z-index: 9999;
-  transition: transform 0.1s ease;
-  mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s;
+  will-change: left, top;
 }
 
 .cursor-follower {
-  width: 32px;
-  height: 32px;
-  border: 1px solid rgba(200, 255, 71, 0.4);
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(200, 255, 71, 0.35);
   border-radius: 50%;
   position: fixed;
-  top: 0;
-  left: 0;
   pointer-events: none;
   z-index: 9998;
-  transition: transform 0.25s ease, width 0.3s, height 0.3s, border-color 0.3s;
+  transform: translate(-50%, -50%);
+  transition: left 0.12s ease-out, top 0.12s ease-out, width 0.3s, height 0.3s;
+  will-change: left, top;
 }
 
 a, button {
