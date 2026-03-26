@@ -30,8 +30,8 @@ const ventures = [
     type: 'Creative Studio',
     vertical: 'Branding & Design',
     desc: 'Brand identity, visual design, and digital experiences built with soul and intention.',
-    url: null,
-    status: 'Coming Soon',
+    url: 'https://truelovecreative.es',
+    status: 'Live',
     year: '2026',
   },
   {
