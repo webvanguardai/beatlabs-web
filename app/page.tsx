@@ -49,11 +49,11 @@ const ventures = [
 const pillars = [
   { label: 'Build', desc: 'We build digital products from the ground up — apps, platforms, tools.' },
   { label: 'Launch', desc: 'We take ideas to market fast. No endless iteration, real launch dates.' },
-  { label: 'Scale', desc: 'Each venture is designed to grow independently, globally.' },
+  { label: 'Scale', desc: 'Each brand is designed to grow independently, globally.' },
 ]
 
 const stats = [
-  { value: '4', label: 'Active Ventures' },
+  { value: '4', label: 'Active Brands' },
   { value: '2026', label: 'Founded' },
   { value: 'UAE', label: 'Headquartered' },
   { value: '∞', label: 'Building' },
@@ -111,7 +111,7 @@ export default function Home() {
               DXB {time}
             </span>
             <a href="#ventures" style={{ fontSize: '0.65rem', color: 'var(--white)', letterSpacing: '0.2em', textDecoration: 'none', fontFamily: 'Syne', fontWeight: 700 }}>
-              VENTURES
+              BRANDS
             </a>
             <a href="mailto:info@beatlabs.ae" style={{ fontSize: '0.65rem', color: 'var(--lime)', letterSpacing: '0.2em', textDecoration: 'none', fontFamily: 'Syne', fontWeight: 700, border: '1px solid var(--lime)', padding: '0.4rem 0.9rem' }}>
               CONTACT
@@ -149,12 +149,12 @@ export default function Home() {
             </h1>
 
             <p style={{ fontFamily: 'Syne', fontSize: '1rem', color: 'rgba(240,237,232,0.5)', lineHeight: 1.7, maxWidth: '480px', marginBottom: '3rem' }}>
-              beatLabs is a Dubai-based venture group. We create, launch, and scale independent digital brands — apps, agencies, platforms, and creative studios.
+              beatLabs is a Dubai-based digital studio. We create, launch, and scale independent brands — apps, agencies, platforms, and creative studios.
             </p>
 
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
               <a href="#ventures" style={{ fontFamily: 'Syne', fontSize: '0.7rem', letterSpacing: '0.2em', fontWeight: 700, color: 'var(--black)', background: 'var(--lime)', padding: '0.8rem 2rem', textDecoration: 'none' }}>
-                OUR VENTURES →
+                OUR BRANDS →
               </a>
               <a href="mailto:info@beatlabs.ae" style={{ fontFamily: 'Syne', fontSize: '0.7rem', letterSpacing: '0.2em', fontWeight: 700, color: 'var(--white)', border: '1px solid rgba(255,255,255,0.2)', padding: '0.8rem 2rem', textDecoration: 'none' }}>
                 GET IN TOUCH
@@ -219,7 +219,7 @@ export default function Home() {
             style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '4rem' }}
           >
             <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(2.5rem, 5vw, 5rem)', letterSpacing: '0.05em', color: 'var(--white)' }}>
-              Our Ventures
+              Our Brands
             </h2>
             <span style={{ fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.2em', fontFamily: 'Syne' }}>
               {ventures.length} BRANDS
