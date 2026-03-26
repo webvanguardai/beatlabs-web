@@ -37,9 +37,9 @@ const ventures = [
   {
     id: '04',
     name: 'Estrela.photo',
-    type: 'Photography Studio',
+    type: 'Artist Portrait Photography',
     vertical: 'Visual Arts',
-    desc: 'Visual storytelling through portraits, spaces, and moments. Photography as craft.',
+    desc: 'Artist portrait photography. Capturing identity, presence, and energy for musicians, creatives, and performers.',
     url: 'https://estrela.photo',
     status: 'Live',
     year: '2025',
