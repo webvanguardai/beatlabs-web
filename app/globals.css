@@ -69,8 +69,9 @@ a, button {
   .footer-grid { grid-template-columns: 1fr !important; text-align: left !important; }
   .footer-links { justify-content: flex-start !important; }
   .footer-right { text-align: left !important; }
-  .venture-grid { grid-template-columns: 2rem 1fr !important; }
-  .venture-cta { display: none !important; }
+  .venture-grid { grid-template-columns: 2rem 1fr !important; grid-template-rows: auto auto; }
+  .venture-grid .venture-cta { grid-column: 2; }
+  .venture-cta { display: block !important; margin-top: 1rem; }
   .nav-links { gap: 1rem !important; }
   .nav-time { display: none !important; }
 }
