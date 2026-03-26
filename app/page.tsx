@@ -139,7 +139,7 @@ export default function Home() {
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
               <div style={{ width: '2rem', height: '1px', background: 'var(--lime)' }} />
-              <span style={{ fontSize: '0.65rem', color: 'var(--lime)', letterSpacing: '0.25em', fontFamily: 'Syne', fontWeight: 700 }}>VENTURE GROUP</span>
+              <span style={{ fontSize: '0.65rem', color: 'var(--lime)', letterSpacing: '0.25em', fontFamily: 'Syne', fontWeight: 700 }}>STUDIO</span>
             </div>
 
             <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(4rem, 10vw, 10rem)', lineHeight: 0.88, letterSpacing: '-0.01em', color: 'var(--white)', marginBottom: '2.5rem' }}>
@@ -310,7 +310,7 @@ export default function Home() {
         {/* ── ABOUT ── */}
         <section className="about-grid" style={{ padding: '6rem 2.5rem', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'start' }}>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <span style={{ fontSize: '0.65rem', color: 'var(--lime)', letterSpacing: '0.25em', fontFamily: 'Syne', fontWeight: 700, display: 'block', marginBottom: '2rem' }}>THE GROUP</span>
+            <span style={{ fontSize: '0.65rem', color: 'var(--lime)', letterSpacing: '0.25em', fontFamily: 'Syne', fontWeight: 700, display: 'block', marginBottom: '2rem' }}>THE STUDIO</span>
             <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(2.5rem, 5vw, 5rem)', color: 'var(--white)', lineHeight: 0.9, letterSpacing: '0.02em' }}>
               One Studio.<br />
               <span style={{ color: 'rgba(255,255,255,0.25)' }}>Many Brands.</span>
@@ -318,7 +318,7 @@ export default function Home() {
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
             <p style={{ fontFamily: 'Syne', fontSize: '1rem', color: 'rgba(240,237,232,0.55)', lineHeight: 1.8, marginBottom: '1.5rem' }}>
-              beatLabs is the holding entity behind a growing portfolio of independent digital ventures. Each brand operates autonomously with its own identity, audience, and revenue model.
+              beatLabs is a digital studio behind a growing portfolio of independent brands. Each one operates autonomously with its own identity, audience, and revenue model.
             </p>
             <p style={{ fontFamily: 'Syne', fontSize: '1rem', color: 'rgba(240,237,232,0.55)', lineHeight: 1.8, marginBottom: '1.5rem' }}>
               We are builders first. Our process is lean: validate fast, launch clean, iterate with data. We don&apos;t build for investors — we build for users.
