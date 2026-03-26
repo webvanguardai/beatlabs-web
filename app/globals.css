@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --black: #080808;
+  --white: #F0EDE8;
+  --lime: #C8FF47;
+  --grey: #1A1A1A;
+  --muted: #555;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--black);
+  color: var(--white);
+  cursor: none;
+}
+
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--black);
+  overflow-x: hidden;
+}
+
+/* Custom cursor */
+.cursor {
+  width: 8px;
+  height: 8px;
+  background: var(--lime);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s ease;
+  mix-blend-mode: difference;
+}
+
+.cursor-follower {
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(200, 255, 71, 0.4);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.25s ease, width 0.3s, height 0.3s, border-color 0.3s;
+}
+
+a, button {
+  cursor: none;
+}
+
+::selection {
+  background: var(--lime);
+  color: var(--black);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: var(--black); }
+::-webkit-scrollbar-thumb { background: var(--lime); }
