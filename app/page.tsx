@@ -93,7 +93,7 @@ export default function Home() {
           transition={{ duration: 0.6, ease: 'easeOut' }}
           className="fixed top-0 left-0 right-0 z-40 flex justify-between items-center px-8 py-6 mix-blend-difference"
         >
-          <img src="/logo.jpg" alt="beatLabs" style={{ height: '2.2rem', width: 'auto', filter: 'invert(1) brightness(2)' }} />
+          <img src="/logo.png" alt="beatLabs" style={{ height: '2rem', width: 'auto' }} />
           <div className="flex items-center gap-8">
             <span style={{ fontSize: '0.7rem', color: 'var(--muted)', letterSpacing: '0.15em', fontFamily: 'Syne' }}>
               DXB {time}
