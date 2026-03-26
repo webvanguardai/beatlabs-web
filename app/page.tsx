@@ -40,7 +40,6 @@ const ventures = [
 
 export default function Home() {
   const [mousePos, setMousePos] = useState({ x: -200, y: -200 })
-  const [followerPos, setFollowerPos] = useState({ x: -200, y: -200 })
   const [hoveredVenture, setHoveredVenture] = useState<string | null>(null)
   const [time, setTime] = useState('')
   const containerRef = useRef<HTMLDivElement>(null)
@@ -49,18 +48,9 @@ export default function Home() {
 
   // Cursor
   useEffect(() => {
-    const move = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY })
-    }
-    const moveFollower = (e: MouseEvent) => {
-      setFollowerPos({ x: e.clientX, y: e.clientY })
-    }
+    const move = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
     window.addEventListener('mousemove', move)
-    window.addEventListener('mousemove', moveFollower)
-    return () => {
-      window.removeEventListener('mousemove', move)
-      window.removeEventListener('mousemove', moveFollower)
-    }
+    return () => window.removeEventListener('mousemove', move)
   }, [])
 
   // Dubai time
@@ -86,10 +76,6 @@ export default function Home() {
       <div
         className="cursor"
         style={{ left: mousePos.x, top: mousePos.y }}
-      />
-      <div
-        className="cursor-follower"
-        style={{ left: followerPos.x, top: followerPos.y }}
       />
 
       {/* Scroll progress line */}

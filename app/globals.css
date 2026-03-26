@@ -44,18 +44,7 @@ body {
   will-change: left, top;
 }
 
-.cursor-follower {
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgba(200, 255, 71, 0.35);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition: left 0.12s ease-out, top 0.12s ease-out, width 0.3s, height 0.3s;
-  will-change: left, top;
-}
+
 
 a, button {
   cursor: none;
