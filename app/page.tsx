@@ -122,12 +122,13 @@ export default function Home() {
         {/* ── HERO ── */}
         <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '8rem 2.5rem 4rem', position: 'relative', overflow: 'hidden' }}>
 
-          {/* BG ghost text */}
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', overflow: 'hidden' }}>
-            <span style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(8rem, 22vw, 22rem)', color: 'transparent', WebkitTextStroke: '1px rgba(255,255,255,0.04)', letterSpacing: '0.05em', userSelect: 'none', whiteSpace: 'nowrap' }}>
-              VENTURE GROUP
-            </span>
-          </div>
+          {/* BG grid */}
+          <div style={{
+            position: 'absolute', inset: 0, pointerEvents: 'none',
+            backgroundImage: 'linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)',
+            backgroundSize: '60px 60px',
+            maskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%)',
+          }} />
 
           {/* Content — single column, left aligned */}
           <motion.div
