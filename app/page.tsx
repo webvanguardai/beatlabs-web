@@ -6,64 +6,77 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 const ventures = [
   {
     id: '01',
-    name: 'Nibango',
-    type: 'Marketplace App',
-    desc: 'Buy and sell second-hand. Peer-to-peer commerce, reimagined for the Gulf.',
-    url: null,
-    status: 'In Development',
+    name: 'WebVanguard',
+    type: 'Web Design Agency',
+    vertical: 'Digital Services',
+    desc: 'We build websites that convert for businesses across the Gulf. Fast, sharp, results-first.',
+    url: 'https://webvanguard.co',
+    status: 'Live',
+    year: '2026',
   },
   {
     id: '02',
-    name: 'WebVanguard',
-    type: 'Web Design Agency',
-    desc: 'We build websites that convert. Dubai-based, globally minded.',
-    url: 'https://webvanguard.co',
-    status: 'Live',
+    name: 'Nibango',
+    type: 'Marketplace App',
+    vertical: 'Commerce',
+    desc: 'Peer-to-peer second-hand marketplace reimagined for the Gulf. Buy, sell, trust.',
+    url: null,
+    status: 'In Development',
+    year: '2026',
   },
   {
     id: '03',
     name: 'TrueLoveCreative',
     type: 'Creative Studio',
-    desc: 'Brand identity, visual design, and digital experiences with soul.',
+    vertical: 'Branding & Design',
+    desc: 'Brand identity, visual design, and digital experiences built with soul and intention.',
     url: null,
     status: 'Coming Soon',
+    year: '2026',
   },
   {
     id: '04',
     name: 'Estrela.photo',
-    type: 'Photography',
-    desc: 'Visual storytelling. Portraits, spaces, and moments that last.',
+    type: 'Photography Studio',
+    vertical: 'Visual Arts',
+    desc: 'Visual storytelling through portraits, spaces, and moments. Photography as craft.',
     url: 'https://estrela.photo',
     status: 'Live',
+    year: '2025',
   },
+]
+
+const pillars = [
+  { label: 'Build', desc: 'We build digital products from the ground up — apps, platforms, tools.' },
+  { label: 'Launch', desc: 'We take ideas to market fast. No endless iteration, real launch dates.' },
+  { label: 'Scale', desc: 'Each venture is designed to grow independently, globally.' },
+]
+
+const stats = [
+  { value: '4', label: 'Active Ventures' },
+  { value: '2026', label: 'Founded' },
+  { value: 'UAE', label: 'Headquartered' },
+  { value: '∞', label: 'Building' },
 ]
 
 export default function Home() {
   const [mousePos, setMousePos] = useState({ x: -200, y: -200 })
   const [hoveredVenture, setHoveredVenture] = useState<string | null>(null)
   const [time, setTime] = useState('')
-  const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll()
   const lineWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
 
-  // Cursor
   useEffect(() => {
     const move = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
     window.addEventListener('mousemove', move)
     return () => window.removeEventListener('mousemove', move)
   }, [])
 
-  // Dubai time
   useEffect(() => {
     const tick = () => {
-      const t = new Date().toLocaleTimeString('en-AE', {
-        timeZone: 'Asia/Dubai',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false,
-      })
-      setTime(t)
+      setTime(new Date().toLocaleTimeString('en-AE', {
+        timeZone: 'Asia/Dubai', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
+      }))
     }
     tick()
     const i = setInterval(tick, 1000)
@@ -72,158 +85,153 @@ export default function Home() {
 
   return (
     <>
-      {/* Custom Cursor */}
-      <div
-        className="cursor"
-        style={{ left: mousePos.x, top: mousePos.y }}
-      />
+      <div className="cursor" style={{ left: mousePos.x, top: mousePos.y }} />
 
-      {/* Scroll progress line */}
-      <motion.div
-        className="fixed top-0 left-0 h-[1px] z-50"
-        style={{ width: lineWidth, background: 'var(--lime)' }}
-      />
+      <motion.div className="fixed top-0 left-0 h-[1px] z-50" style={{ width: lineWidth, background: 'var(--lime)' }} />
 
-      <main ref={containerRef} style={{ background: 'var(--black)', minHeight: '100vh' }}>
+      <main style={{ background: 'var(--black)', minHeight: '100vh' }}>
 
         {/* ── NAV ── */}
         <motion.nav
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="fixed top-0 left-0 right-0 z-40 flex justify-between items-center px-8 py-6 mix-blend-difference"
+          transition={{ duration: 0.6 }}
+          style={{
+            position: 'fixed', top: 0, left: 0, right: 0, zIndex: 40,
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            padding: '1.5rem 2.5rem',
+            borderBottom: '1px solid rgba(255,255,255,0.04)',
+            background: 'rgba(8,8,8,0.85)',
+            backdropFilter: 'blur(12px)',
+          }}
         >
-          <img src="/logo.png" alt="beatLabs" style={{ height: '2rem', width: 'auto' }} />
-          <div className="flex items-center gap-8">
-            <span style={{ fontSize: '0.7rem', color: 'var(--muted)', letterSpacing: '0.15em', fontFamily: 'Syne' }}>
+          <img src="/logo.png" alt="beatLabs" style={{ height: '1.8rem', width: 'auto' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+            <span style={{ fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.2em', fontFamily: 'Syne' }}>
               DXB {time}
             </span>
-            <a
-              href="mailto:info@beatlabs.ae"
-              style={{ fontSize: '0.7rem', color: 'var(--white)', letterSpacing: '0.15em', textDecoration: 'none', fontFamily: 'Syne' }}
-            >
+            <a href="#ventures" style={{ fontSize: '0.65rem', color: 'var(--white)', letterSpacing: '0.2em', textDecoration: 'none', fontFamily: 'Syne', fontWeight: 700 }}>
+              VENTURES
+            </a>
+            <a href="mailto:info@beatlabs.ae" style={{ fontSize: '0.65rem', color: 'var(--lime)', letterSpacing: '0.2em', textDecoration: 'none', fontFamily: 'Syne', fontWeight: 700, border: '1px solid var(--lime)', padding: '0.4rem 0.9rem' }}>
               CONTACT
             </a>
           </div>
         </motion.nav>
 
         {/* ── HERO ── */}
-        <section className="relative flex flex-col justify-end" style={{ height: '100vh', padding: '0 2rem 4rem' }}>
-          {/* Big BG text */}
-          <div
-            className="absolute inset-0 flex items-center justify-center select-none pointer-events-none overflow-hidden"
-            aria-hidden
-          >
-            <span style={{
-              fontFamily: 'Bebas Neue',
-              fontSize: 'clamp(8rem, 22vw, 22rem)',
-              color: 'transparent',
-              WebkitTextStroke: '1px rgba(255,255,255,0.04)',
-              letterSpacing: '-0.02em',
-              lineHeight: 1,
-              userSelect: 'none',
-            }}>
-              beatLabs
+        <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '8rem 2.5rem 4rem', position: 'relative', overflow: 'hidden' }}>
+
+          {/* BG ghost text */}
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', overflow: 'hidden' }}>
+            <span style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(10rem, 28vw, 28rem)', color: 'transparent', WebkitTextStroke: '1px rgba(255,255,255,0.03)', letterSpacing: '-0.02em', userSelect: 'none', whiteSpace: 'nowrap' }}>
+              BEATLABS
             </span>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 60 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-          >
-            {/* Tagline */}
-            <div style={{ marginBottom: '2rem' }}>
-              <span style={{
-                fontFamily: 'Bebas Neue',
-                fontSize: 'clamp(3.5rem, 9vw, 8rem)',
-                color: 'var(--white)',
-                lineHeight: 0.9,
-                letterSpacing: '-0.01em',
-                display: 'block',
-              }}>
-                Build<span style={{ color: 'var(--lime)' }}>.</span>
-              </span>
-              <span style={{
-                fontFamily: 'Bebas Neue',
-                fontSize: 'clamp(3.5rem, 9vw, 8rem)',
-                color: 'var(--white)',
-                lineHeight: 0.9,
-                letterSpacing: '-0.01em',
-                display: 'block',
-              }}>
-                Launch<span style={{ color: 'var(--lime)' }}>.</span>
-              </span>
-              <span style={{
-                fontFamily: 'Bebas Neue',
-                fontSize: 'clamp(3.5rem, 9vw, 8rem)',
-                color: 'rgba(255,255,255,0.25)',
-                lineHeight: 0.9,
-                letterSpacing: '-0.01em',
-                display: 'block',
-              }}>
-                Repeat.
-              </span>
-            </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center', position: 'relative' }}>
+            {/* Left — text */}
+            <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
+                <div style={{ width: '2rem', height: '1px', background: 'var(--lime)' }} />
+                <span style={{ fontSize: '0.65rem', color: 'var(--lime)', letterSpacing: '0.25em', fontFamily: 'Syne', fontWeight: 700 }}>VENTURE GROUP</span>
+              </div>
 
-            {/* Meta */}
-            <div className="flex items-center gap-8 flex-wrap">
-              <div style={{ width: '2rem', height: '1px', background: 'var(--lime)' }} />
-              <span style={{ fontSize: '0.75rem', color: 'var(--muted)', letterSpacing: '0.2em', fontFamily: 'Syne' }}>
-                VENTURE STUDIO
-              </span>
-              <span style={{ fontSize: '0.75rem', color: 'var(--muted)', letterSpacing: '0.2em', fontFamily: 'Syne' }}>
-                DUBAI, UAE
-              </span>
-              <span style={{ fontSize: '0.75rem', color: 'var(--muted)', letterSpacing: '0.2em', fontFamily: 'Syne' }}>
-                EST. 2026
-              </span>
-            </div>
-          </motion.div>
+              <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(4rem, 9vw, 9rem)', lineHeight: 0.88, letterSpacing: '-0.01em', color: 'var(--white)', marginBottom: '2rem' }}>
+                We Build<br />
+                <span style={{ color: 'var(--lime)' }}>Companies.</span><br />
+                <span style={{ color: 'rgba(255,255,255,0.2)' }}>Not Projects.</span>
+              </h1>
 
-          {/* Scroll indicator */}
-          <motion.div
-            className="absolute right-8 bottom-8 flex flex-col items-center gap-2"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2 }}
-          >
-            <span style={{ fontSize: '0.6rem', letterSpacing: '0.2em', color: 'var(--muted)', writingMode: 'vertical-lr', fontFamily: 'Syne' }}>
-              SCROLL
-            </span>
+              <p style={{ fontFamily: 'Syne', fontSize: '1rem', color: 'rgba(240,237,232,0.5)', lineHeight: 1.7, maxWidth: '420px', marginBottom: '3rem' }}>
+                beatLabs is a Dubai-based venture group. We create, launch, and scale independent digital brands — apps, agencies, platforms, and creative studios.
+              </p>
+
+              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                <a href="#ventures" style={{ fontFamily: 'Syne', fontSize: '0.7rem', letterSpacing: '0.2em', fontWeight: 700, color: 'var(--black)', background: 'var(--lime)', padding: '0.8rem 2rem', textDecoration: 'none' }}>
+                  OUR VENTURES →
+                </a>
+                <a href="mailto:info@beatlabs.ae" style={{ fontFamily: 'Syne', fontSize: '0.7rem', letterSpacing: '0.2em', fontWeight: 700, color: 'var(--white)', border: '1px solid rgba(255,255,255,0.2)', padding: '0.8rem 2rem', textDecoration: 'none' }}>
+                  GET IN TOUCH
+                </a>
+              </div>
+            </motion.div>
+
+            {/* Right — hero logo */}
             <motion.div
-              style={{ width: '1px', height: '3rem', background: 'var(--muted)', transformOrigin: 'top' }}
-              animate={{ scaleY: [1, 0.3, 1] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-            />
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+            >
+              <img src="/logo-hero.png" alt="beatLabs" style={{ width: '100%', maxWidth: '400px', filter: 'drop-shadow(0 0 80px rgba(200,255,71,0.12))' }} />
+            </motion.div>
+          </div>
+        </section>
+
+        {/* ── STATS ── */}
+        <section style={{ borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '3rem 2.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem' }}>
+            {stats.map((s, i) => (
+              <motion.div key={s.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                style={{ textAlign: 'center' }}
+              >
+                <div style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: 'var(--lime)', letterSpacing: '0.05em', lineHeight: 1 }}>
+                  {s.value}
+                </div>
+                <div style={{ fontFamily: 'Syne', fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.2em', marginTop: '0.5rem' }}>
+                  {s.label.toUpperCase()}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── PILLARS ── */}
+        <section style={{ padding: '6rem 2.5rem', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ marginBottom: '4rem' }}>
+            <span style={{ fontSize: '0.65rem', color: 'var(--lime)', letterSpacing: '0.25em', fontFamily: 'Syne', fontWeight: 700 }}>HOW WE OPERATE</span>
           </motion.div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2px' }}>
+            {pillars.map((p, i) => (
+              <motion.div key={p.label}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                style={{ padding: '2.5rem', border: '1px solid rgba(255,255,255,0.06)' }}
+              >
+                <div style={{ fontFamily: 'Bebas Neue', fontSize: '3.5rem', color: 'var(--white)', letterSpacing: '0.05em', lineHeight: 1, marginBottom: '1rem' }}>
+                  {p.label}<span style={{ color: 'var(--lime)' }}>.</span>
+                </div>
+                <p style={{ fontFamily: 'Syne', fontSize: '0.85rem', color: 'rgba(240,237,232,0.45)', lineHeight: 1.7 }}>
+                  {p.desc}
+                </p>
+              </motion.div>
+            ))}
+          </div>
         </section>
 
         {/* ── VENTURES ── */}
-        <section style={{ padding: '6rem 2rem', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-
-          {/* Section header */}
+        <section id="ventures" style={{ padding: '6rem 2.5rem' }}>
           <motion.div
-            className="flex items-baseline justify-between mb-16"
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
+            style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '4rem' }}
           >
-            <h2 style={{
-              fontFamily: 'Bebas Neue',
-              fontSize: 'clamp(2rem, 5vw, 4rem)',
-              letterSpacing: '0.05em',
-              color: 'var(--white)',
-            }}>
-              Ventures
+            <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(2.5rem, 5vw, 5rem)', letterSpacing: '0.05em', color: 'var(--white)' }}>
+              Our Ventures
             </h2>
-            <span style={{ fontSize: '0.7rem', color: 'var(--muted)', letterSpacing: '0.15em', fontFamily: 'Syne' }}>
-              {ventures.length} ACTIVE
+            <span style={{ fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.2em', fontFamily: 'Syne' }}>
+              {ventures.length} BRANDS
             </span>
           </motion.div>
 
-          {/* Venture list */}
           <div>
             {ventures.map((v, i) => (
               <motion.div
@@ -231,113 +239,69 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                transition={{ delay: i * 0.08 }}
                 onMouseEnter={() => setHoveredVenture(v.id)}
                 onMouseLeave={() => setHoveredVenture(null)}
                 style={{
                   borderTop: '1px solid rgba(255,255,255,0.06)',
-                  padding: '2rem 0',
-                  transition: 'background 0.3s',
-                  background: hoveredVenture === v.id ? 'rgba(200,255,71,0.02)' : 'transparent',
+                  padding: '2.5rem 0',
+                  background: hoveredVenture === v.id ? 'rgba(200,255,71,0.015)' : 'transparent',
+                  transition: 'background 0.4s',
                 }}
               >
-                <div className="flex items-start justify-between gap-4 flex-wrap">
-                  <div className="flex items-start gap-6">
-                    {/* Number */}
-                    <span style={{
-                      fontFamily: 'Bebas Neue',
-                      fontSize: '0.9rem',
-                      color: 'var(--muted)',
-                      letterSpacing: '0.1em',
-                      marginTop: '0.3rem',
-                      minWidth: '2rem',
-                    }}>
-                      {v.id}
-                    </span>
+                <div style={{ display: 'grid', gridTemplateColumns: '3rem 1fr auto', gap: '2rem', alignItems: 'center' }}>
+                  {/* Number */}
+                  <span style={{ fontFamily: 'Bebas Neue', fontSize: '0.85rem', color: 'var(--muted)', letterSpacing: '0.1em' }}>{v.id}</span>
 
-                    <div>
-                      {/* Name */}
-                      <div className="flex items-center gap-4 mb-2">
-                        <h3 style={{
-                          fontFamily: 'Bebas Neue',
-                          fontSize: 'clamp(1.8rem, 4vw, 3rem)',
-                          letterSpacing: '0.03em',
-                          color: hoveredVenture === v.id ? 'var(--lime)' : 'var(--white)',
-                          transition: 'color 0.3s',
-                          lineHeight: 1,
-                        }}>
-                          {v.name}
-                        </h3>
-                        {/* Status badge */}
-                        <span style={{
-                          fontSize: '0.6rem',
-                          padding: '0.2rem 0.6rem',
-                          border: `1px solid ${v.status === 'Live' ? 'var(--lime)' : 'rgba(255,255,255,0.15)'}`,
-                          color: v.status === 'Live' ? 'var(--lime)' : 'var(--muted)',
-                          letterSpacing: '0.15em',
-                          fontFamily: 'Syne',
-                          fontWeight: 600,
-                        }}>
-                          {v.status.toUpperCase()}
-                        </span>
-                      </div>
-
-                      {/* Type */}
-                      <p style={{
-                        fontSize: '0.7rem',
-                        color: 'var(--muted)',
-                        letterSpacing: '0.15em',
-                        fontFamily: 'Syne',
-                        marginBottom: '0.75rem',
+                  {/* Content */}
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
+                      <h3 style={{
+                        fontFamily: 'Bebas Neue',
+                        fontSize: 'clamp(2rem, 4vw, 3.5rem)',
+                        letterSpacing: '0.03em',
+                        color: hoveredVenture === v.id ? 'var(--lime)' : 'var(--white)',
+                        transition: 'color 0.3s',
+                        lineHeight: 1,
                       }}>
-                        {v.type.toUpperCase()}
-                      </p>
-
-                      {/* Desc */}
-                      <p style={{
-                        fontSize: '0.9rem',
-                        color: 'rgba(240,237,232,0.5)',
-                        fontFamily: 'Syne',
-                        fontWeight: 400,
-                        maxWidth: '480px',
-                        lineHeight: 1.6,
+                        {v.name}
+                      </h3>
+                      <span style={{
+                        fontSize: '0.58rem', fontFamily: 'Syne', fontWeight: 700,
+                        padding: '0.2rem 0.7rem', letterSpacing: '0.15em',
+                        border: `1px solid ${v.status === 'Live' ? 'var(--lime)' : 'rgba(255,255,255,0.12)'}`,
+                        color: v.status === 'Live' ? 'var(--lime)' : 'var(--muted)',
                       }}>
-                        {v.desc}
-                      </p>
+                        {v.status.toUpperCase()}
+                      </span>
+                      <span style={{ fontSize: '0.58rem', fontFamily: 'Syne', color: 'rgba(255,255,255,0.15)', letterSpacing: '0.15em', border: '1px solid rgba(255,255,255,0.08)', padding: '0.2rem 0.7rem' }}>
+                        {v.vertical.toUpperCase()}
+                      </span>
                     </div>
+                    <p style={{ fontFamily: 'Syne', fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.15em', marginBottom: '0.6rem' }}>
+                      {v.type.toUpperCase()} · EST. {v.year}
+                    </p>
+                    <p style={{ fontFamily: 'Syne', fontSize: '0.9rem', color: 'rgba(240,237,232,0.45)', lineHeight: 1.6, maxWidth: '520px' }}>
+                      {v.desc}
+                    </p>
                   </div>
 
                   {/* CTA */}
-                  <div className="flex items-center self-center">
+                  <div>
                     {v.url ? (
-                      <a
-                        href={v.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <a href={v.url} target="_blank" rel="noopener noreferrer"
                         style={{
-                          fontFamily: 'Syne',
-                          fontSize: '0.7rem',
-                          letterSpacing: '0.15em',
+                          fontFamily: 'Syne', fontSize: '0.65rem', letterSpacing: '0.2em', fontWeight: 700,
                           color: hoveredVenture === v.id ? 'var(--black)' : 'var(--white)',
                           background: hoveredVenture === v.id ? 'var(--lime)' : 'transparent',
                           border: '1px solid rgba(255,255,255,0.15)',
-                          padding: '0.6rem 1.2rem',
-                          textDecoration: 'none',
-                          transition: 'all 0.3s',
-                          display: 'inline-block',
-                          fontWeight: 600,
-                        }}
-                      >
+                          padding: '0.7rem 1.4rem', textDecoration: 'none',
+                          transition: 'all 0.3s', display: 'inline-block', whiteSpace: 'nowrap',
+                        }}>
                         VISIT →
                       </a>
                     ) : (
-                      <span style={{
-                        fontFamily: 'Syne',
-                        fontSize: '0.7rem',
-                        letterSpacing: '0.15em',
-                        color: 'var(--muted)',
-                        fontWeight: 600,
-                      }}>
+                      <span style={{ fontFamily: 'Syne', fontSize: '0.65rem', color: 'rgba(255,255,255,0.15)', letterSpacing: '0.2em', fontWeight: 700 }}>
                         SOON
                       </span>
                     )}
@@ -350,57 +314,84 @@ export default function Home() {
         </section>
 
         {/* ── ABOUT ── */}
-        <section style={{ padding: '6rem 2rem', borderTop: '1px solid rgba(255,255,255,0.06)', maxWidth: '900px' }}>
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-          >
-            <span style={{ fontSize: '0.7rem', color: 'var(--lime)', letterSpacing: '0.2em', fontFamily: 'Syne', fontWeight: 700, display: 'block', marginBottom: '2rem' }}>
-              ABOUT
-            </span>
-            <p style={{
-              fontFamily: 'Syne',
-              fontSize: 'clamp(1.1rem, 2.5vw, 1.6rem)',
-              color: 'rgba(240,237,232,0.7)',
-              lineHeight: 1.6,
-              fontWeight: 400,
-            }}>
-              beatLabs is a venture studio based in Dubai, UAE. We build digital products —
-              apps, platforms, and creative studios — that solve real problems and reach real people.
-              Each venture is independent, focused, and built to scale.
+        <section style={{ padding: '6rem 2.5rem', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'start' }}>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <span style={{ fontSize: '0.65rem', color: 'var(--lime)', letterSpacing: '0.25em', fontFamily: 'Syne', fontWeight: 700, display: 'block', marginBottom: '2rem' }}>THE GROUP</span>
+            <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(2.5rem, 5vw, 5rem)', color: 'var(--white)', lineHeight: 0.9, letterSpacing: '0.02em' }}>
+              One Studio.<br />
+              <span style={{ color: 'rgba(255,255,255,0.25)' }}>Many Brands.</span>
+            </h2>
+          </motion.div>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
+            <p style={{ fontFamily: 'Syne', fontSize: '1rem', color: 'rgba(240,237,232,0.55)', lineHeight: 1.8, marginBottom: '1.5rem' }}>
+              beatLabs is the holding entity behind a growing portfolio of independent digital ventures. Each brand operates autonomously with its own identity, audience, and revenue model.
             </p>
+            <p style={{ fontFamily: 'Syne', fontSize: '1rem', color: 'rgba(240,237,232,0.55)', lineHeight: 1.8, marginBottom: '1.5rem' }}>
+              We are builders first. Our process is lean: validate fast, launch clean, iterate with data. We don&apos;t build for investors — we build for users.
+            </p>
+            <p style={{ fontFamily: 'Syne', fontSize: '1rem', color: 'rgba(240,237,232,0.55)', lineHeight: 1.8 }}>
+              Based in Dubai. Operating globally.
+            </p>
+          </motion.div>
+        </section>
+
+        {/* ── CONTACT ── */}
+        <section style={{ padding: '6rem 2.5rem', borderTop: '1px solid rgba(255,255,255,0.06)', textAlign: 'center' }}>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+            <span style={{ fontSize: '0.65rem', color: 'var(--lime)', letterSpacing: '0.25em', fontFamily: 'Syne', fontWeight: 700, display: 'block', marginBottom: '2rem' }}>GET IN TOUCH</span>
+            <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(3rem, 7vw, 7rem)', color: 'var(--white)', lineHeight: 0.9, letterSpacing: '-0.01em', marginBottom: '2.5rem' }}>
+              {"Let's Build"}<br />
+              <span style={{ color: 'var(--lime)' }}>Something.</span>
+            </h2>
+            <p style={{ fontFamily: 'Syne', fontSize: '0.9rem', color: 'rgba(240,237,232,0.4)', marginBottom: '3rem', lineHeight: 1.7 }}>
+              Partnership inquiries, investment, or just a conversation<br />{"about what we're building next."}
+            </p>
+            <a href="mailto:info@beatlabs.ae"
+              style={{
+                fontFamily: 'Syne', fontSize: '0.75rem', letterSpacing: '0.25em', fontWeight: 700,
+                color: 'var(--black)', background: 'var(--lime)',
+                padding: '1rem 3rem', textDecoration: 'none', display: 'inline-block',
+              }}>
+              info@beatlabs.ae →
+            </a>
           </motion.div>
         </section>
 
         {/* ── FOOTER ── */}
         <footer style={{
           borderTop: '1px solid rgba(255,255,255,0.06)',
-          padding: '3rem 2rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
-          flexWrap: 'wrap',
-          gap: '1.5rem',
+          padding: '3rem 2.5rem',
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr 1fr',
+          alignItems: 'end',
+          gap: '2rem',
         }}>
           <div>
-            <span style={{ fontFamily: 'Bebas Neue', fontSize: '1.2rem', letterSpacing: '0.1em', color: 'var(--white)', display: 'block', marginBottom: '0.5rem' }}>
-              beatLabs
-            </span>
-            <span style={{ fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.15em', fontFamily: 'Syne' }}>
-              © 2026 — DUBAI, UAE
+            <img src="/logo.png" alt="beatLabs" style={{ height: '1.6rem', marginBottom: '0.8rem', display: 'block' }} />
+            <span style={{ fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.15em', fontFamily: 'Syne' }}>
+              © 2026 beatLabs — Dubai, UAE
             </span>
           </div>
-          <div className="flex flex-col items-end gap-1">
-            <a href="mailto:info@beatlabs.ae" style={{ fontSize: '0.7rem', color: 'var(--muted)', letterSpacing: '0.15em', fontFamily: 'Syne', textDecoration: 'none', transition: 'color 0.2s' }}
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
+              {ventures.filter(v => v.url).map(v => (
+                <a key={v.id} href={v.url!} target="_blank" rel="noopener noreferrer"
+                  style={{ fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.15em', fontFamily: 'Syne', fontWeight: 700, textDecoration: 'none' }}>
+                  {v.name.toUpperCase()}
+                </a>
+              ))}
+            </div>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <a href="mailto:info@beatlabs.ae"
+              style={{ fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.15em', fontFamily: 'Syne', textDecoration: 'none' }}
               onMouseEnter={e => (e.currentTarget.style.color = 'var(--lime)')}
               onMouseLeave={e => (e.currentTarget.style.color = 'var(--muted)')}>
               info@beatlabs.ae
             </a>
-            <span style={{ fontSize: '0.65rem', color: 'rgba(85,85,85,0.5)', letterSpacing: '0.1em', fontFamily: 'Syne' }}>
-              Build different.
-            </span>
+            <div style={{ fontSize: '0.55rem', color: 'rgba(85,85,85,0.4)', letterSpacing: '0.1em', fontFamily: 'Syne', marginTop: '0.4rem' }}>
+              BUILD DIFFERENT.
+            </div>
           </div>
         </footer>
 
