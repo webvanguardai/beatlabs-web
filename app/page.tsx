@@ -122,19 +122,11 @@ export default function Home() {
         {/* ── HERO ── */}
         <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '8rem 2.5rem 4rem', position: 'relative', overflow: 'hidden' }}>
 
-          {/* BG logo — full bleed ghost */}
+          {/* BG ghost text */}
           <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', overflow: 'hidden' }}>
-            <img
-              src="/logo-hero.png"
-              alt=""
-              aria-hidden
-              style={{
-                width: 'clamp(500px, 80vw, 1000px)',
-                opacity: 0.06,
-                filter: 'blur(2px) drop-shadow(0 0 120px rgba(200,255,71,0.15))',
-                userSelect: 'none',
-              }}
-            />
+            <span style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(8rem, 22vw, 22rem)', color: 'transparent', WebkitTextStroke: '1px rgba(255,255,255,0.04)', letterSpacing: '0.05em', userSelect: 'none', whiteSpace: 'nowrap' }}>
+              VENTURE GROUP
+            </span>
           </div>
 
           {/* Content — single column, left aligned */}
