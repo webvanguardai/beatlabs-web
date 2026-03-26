@@ -20,7 +20,7 @@ const ventures = [
     type: 'Marketplace App',
     vertical: 'Commerce',
     desc: 'Peer-to-peer second-hand marketplace reimagined for the Gulf. Buy, sell, trust.',
-    url: null,
+    url: 'https://nibango.com/uiapp/',
     status: 'In Development',
     year: '2026',
   },
