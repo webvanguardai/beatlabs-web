@@ -59,3 +59,18 @@ a, button {
 ::-webkit-scrollbar { width: 2px; }
 ::-webkit-scrollbar-track { background: var(--black); }
 ::-webkit-scrollbar-thumb { background: var(--lime); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-grid { grid-template-columns: 1fr !important; }
+  .pillars-grid { grid-template-columns: 1fr !important; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .about-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+  .footer-grid { grid-template-columns: 1fr !important; text-align: left !important; }
+  .footer-links { justify-content: flex-start !important; }
+  .footer-right { text-align: left !important; }
+  .venture-grid { grid-template-columns: 2rem 1fr !important; }
+  .venture-cta { display: none !important; }
+  .nav-links { gap: 1rem !important; }
+  .nav-time { display: none !important; }
+}

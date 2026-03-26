@@ -99,15 +99,15 @@ export default function Home() {
           style={{
             position: 'fixed', top: 0, left: 0, right: 0, zIndex: 40,
             display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-            padding: '1.5rem 2.5rem',
+            padding: '1.2rem 1.5rem',
             borderBottom: '1px solid rgba(255,255,255,0.04)',
             background: 'rgba(8,8,8,0.85)',
             backdropFilter: 'blur(12px)',
           }}
         >
           <img src="/logo.png" alt="beatLabs" style={{ height: '1.8rem', width: 'auto' }} />
-          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-            <span style={{ fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.2em', fontFamily: 'Syne' }}>
+          <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+            <span className="nav-time" style={{ fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.2em', fontFamily: 'Syne' }}>
               DXB {time}
             </span>
             <a href="#ventures" style={{ fontSize: '0.65rem', color: 'var(--white)', letterSpacing: '0.2em', textDecoration: 'none', fontFamily: 'Syne', fontWeight: 700 }}>
@@ -122,56 +122,57 @@ export default function Home() {
         {/* ── HERO ── */}
         <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '8rem 2.5rem 4rem', position: 'relative', overflow: 'hidden' }}>
 
-          {/* BG ghost text */}
+          {/* BG logo — full bleed ghost */}
           <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none', overflow: 'hidden' }}>
-            <span style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(10rem, 28vw, 28rem)', color: 'transparent', WebkitTextStroke: '1px rgba(255,255,255,0.03)', letterSpacing: '-0.02em', userSelect: 'none', whiteSpace: 'nowrap' }}>
-              BEATLABS
-            </span>
+            <img
+              src="/logo-hero.png"
+              alt=""
+              aria-hidden
+              style={{
+                width: 'clamp(500px, 80vw, 1000px)',
+                opacity: 0.06,
+                filter: 'blur(2px) drop-shadow(0 0 120px rgba(200,255,71,0.15))',
+                userSelect: 'none',
+              }}
+            />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center', position: 'relative' }}>
-            {/* Left — text */}
-            <motion.div initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
-                <div style={{ width: '2rem', height: '1px', background: 'var(--lime)' }} />
-                <span style={{ fontSize: '0.65rem', color: 'var(--lime)', letterSpacing: '0.25em', fontFamily: 'Syne', fontWeight: 700 }}>VENTURE GROUP</span>
-              </div>
+          {/* Content — single column, left aligned */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            style={{ position: 'relative', maxWidth: '700px' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
+              <div style={{ width: '2rem', height: '1px', background: 'var(--lime)' }} />
+              <span style={{ fontSize: '0.65rem', color: 'var(--lime)', letterSpacing: '0.25em', fontFamily: 'Syne', fontWeight: 700 }}>VENTURE GROUP</span>
+            </div>
 
-              <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(4rem, 9vw, 9rem)', lineHeight: 0.88, letterSpacing: '-0.01em', color: 'var(--white)', marginBottom: '2rem' }}>
-                We Build<br />
-                <span style={{ color: 'var(--lime)' }}>Companies.</span><br />
-                <span style={{ color: 'rgba(255,255,255,0.2)' }}>Not Projects.</span>
-              </h1>
+            <h1 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(4rem, 10vw, 10rem)', lineHeight: 0.88, letterSpacing: '-0.01em', color: 'var(--white)', marginBottom: '2.5rem' }}>
+              We Build<br />
+              <span style={{ color: 'var(--lime)' }}>Companies.</span><br />
+              <span style={{ color: 'rgba(255,255,255,0.2)' }}>Not Projects.</span>
+            </h1>
 
-              <p style={{ fontFamily: 'Syne', fontSize: '1rem', color: 'rgba(240,237,232,0.5)', lineHeight: 1.7, maxWidth: '420px', marginBottom: '3rem' }}>
-                beatLabs is a Dubai-based venture group. We create, launch, and scale independent digital brands — apps, agencies, platforms, and creative studios.
-              </p>
+            <p style={{ fontFamily: 'Syne', fontSize: '1rem', color: 'rgba(240,237,232,0.5)', lineHeight: 1.7, maxWidth: '480px', marginBottom: '3rem' }}>
+              beatLabs is a Dubai-based venture group. We create, launch, and scale independent digital brands — apps, agencies, platforms, and creative studios.
+            </p>
 
-              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                <a href="#ventures" style={{ fontFamily: 'Syne', fontSize: '0.7rem', letterSpacing: '0.2em', fontWeight: 700, color: 'var(--black)', background: 'var(--lime)', padding: '0.8rem 2rem', textDecoration: 'none' }}>
-                  OUR VENTURES →
-                </a>
-                <a href="mailto:info@beatlabs.ae" style={{ fontFamily: 'Syne', fontSize: '0.7rem', letterSpacing: '0.2em', fontWeight: 700, color: 'var(--white)', border: '1px solid rgba(255,255,255,0.2)', padding: '0.8rem 2rem', textDecoration: 'none' }}>
-                  GET IN TOUCH
-                </a>
-              </div>
-            </motion.div>
-
-            {/* Right — hero logo */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-              style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-            >
-              <img src="/logo-hero.png" alt="beatLabs" style={{ width: '100%', maxWidth: '400px', filter: 'drop-shadow(0 0 80px rgba(200,255,71,0.12))' }} />
-            </motion.div>
-          </div>
+            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+              <a href="#ventures" style={{ fontFamily: 'Syne', fontSize: '0.7rem', letterSpacing: '0.2em', fontWeight: 700, color: 'var(--black)', background: 'var(--lime)', padding: '0.8rem 2rem', textDecoration: 'none' }}>
+                OUR VENTURES →
+              </a>
+              <a href="mailto:info@beatlabs.ae" style={{ fontFamily: 'Syne', fontSize: '0.7rem', letterSpacing: '0.2em', fontWeight: 700, color: 'var(--white)', border: '1px solid rgba(255,255,255,0.2)', padding: '0.8rem 2rem', textDecoration: 'none' }}>
+                GET IN TOUCH
+              </a>
+            </div>
+          </motion.div>
         </section>
 
         {/* ── STATS ── */}
         <section style={{ borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '3rem 2.5rem' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem' }}>
+          <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem' }}>
             {stats.map((s, i) => (
               <motion.div key={s.label}
                 initial={{ opacity: 0, y: 20 }}
@@ -196,7 +197,7 @@ export default function Home() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} style={{ marginBottom: '4rem' }}>
             <span style={{ fontSize: '0.65rem', color: 'var(--lime)', letterSpacing: '0.25em', fontFamily: 'Syne', fontWeight: 700 }}>HOW WE OPERATE</span>
           </motion.div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2px' }}>
+          <div className="pillars-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2px' }}>
             {pillars.map((p, i) => (
               <motion.div key={p.label}
                 initial={{ opacity: 0, y: 30 }}
@@ -249,7 +250,7 @@ export default function Home() {
                   transition: 'background 0.4s',
                 }}
               >
-                <div style={{ display: 'grid', gridTemplateColumns: '3rem 1fr auto', gap: '2rem', alignItems: 'center' }}>
+                <div className="venture-grid" style={{ display: 'grid', gridTemplateColumns: '3rem 1fr auto', gap: '2rem', alignItems: 'center' }}>
                   {/* Number */}
                   <span style={{ fontFamily: 'Bebas Neue', fontSize: '0.85rem', color: 'var(--muted)', letterSpacing: '0.1em' }}>{v.id}</span>
 
@@ -287,7 +288,7 @@ export default function Home() {
                   </div>
 
                   {/* CTA */}
-                  <div>
+                  <div className="venture-cta">
                     {v.url ? (
                       <a href={v.url} target="_blank" rel="noopener noreferrer"
                         style={{
@@ -314,7 +315,7 @@ export default function Home() {
         </section>
 
         {/* ── ABOUT ── */}
-        <section style={{ padding: '6rem 2.5rem', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'start' }}>
+        <section className="about-grid" style={{ padding: '6rem 2.5rem', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'start' }}>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <span style={{ fontSize: '0.65rem', color: 'var(--lime)', letterSpacing: '0.25em', fontFamily: 'Syne', fontWeight: 700, display: 'block', marginBottom: '2rem' }}>THE GROUP</span>
             <h2 style={{ fontFamily: 'Bebas Neue', fontSize: 'clamp(2.5rem, 5vw, 5rem)', color: 'var(--white)', lineHeight: 0.9, letterSpacing: '0.02em' }}>
@@ -358,7 +359,7 @@ export default function Home() {
         </section>
 
         {/* ── FOOTER ── */}
-        <footer style={{
+        <footer className="footer-grid" style={{
           borderTop: '1px solid rgba(255,255,255,0.06)',
           padding: '3rem 2.5rem',
           display: 'grid',
@@ -372,8 +373,8 @@ export default function Home() {
               © 2026 beatLabs — Dubai, UAE
             </span>
           </div>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
+          <div>
+            <div className="footer-links" style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
               {ventures.filter(v => v.url).map(v => (
                 <a key={v.id} href={v.url!} target="_blank" rel="noopener noreferrer"
                   style={{ fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.15em', fontFamily: 'Syne', fontWeight: 700, textDecoration: 'none' }}>
@@ -382,7 +383,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-          <div style={{ textAlign: 'right' }}>
+          <div className="footer-right" style={{ textAlign: 'right' }}>
             <a href="mailto:info@beatlabs.ae"
               style={{ fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.15em', fontFamily: 'Syne', textDecoration: 'none' }}
               onMouseEnter={e => (e.currentTarget.style.color = 'var(--lime)')}
