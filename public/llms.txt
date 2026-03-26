@@ -1,0 +1,22 @@
+# beatLabs
+
+> Dubai-based digital studio building independent brands — apps, agencies, and creative platforms.
+
+beatLabs is the studio behind a portfolio of independent digital brands. Each brand operates autonomously with its own identity, audience, and business model.
+
+## Brands
+
+- [Nibango](https://nibango.com/uiapp/) — Peer-to-peer second-hand marketplace for the Gulf. In development.
+- [WebVanguard](https://webvanguard.co) — Web design agency for businesses in Dubai and the UAE.
+- [TrueLoveCreative](https://truelovecreative.es) — Brand identity and creative studio.
+- [Estrela.photo](https://estrela.photo) — Artist portrait photography.
+
+## Contact
+
+- Email: info@beatlabs.ae
+- Location: Dubai, UAE
+- Founded: 2026
+
+## Optional
+
+- [Sitemap](https://beatlabs.ae/sitemap.xml)
