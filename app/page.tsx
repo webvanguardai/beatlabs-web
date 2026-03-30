@@ -89,7 +89,7 @@ export default function Home() {
 
       <motion.div className="fixed top-0 left-0 h-[1px] z-50" style={{ width: lineWidth, background: 'var(--lime)' }} />
 
-      <main style={{ background: 'var(--black)', minHeight: '100vh' }}>
+      <main style={{ background: 'var(--black)', minHeight: '100vh', cursor: 'none' }}>
 
         {/* ── NAV ── */}
         <motion.nav

@@ -21,7 +21,6 @@
 html {
   background: var(--black);
   color: var(--white);
-  cursor: none;
 }
 
 body {
@@ -47,7 +46,7 @@ body {
 
 
 a, button {
-  cursor: none;
+  cursor: pointer;
 }
 
 ::selection {
