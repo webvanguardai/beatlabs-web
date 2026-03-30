@@ -16,6 +16,18 @@ const apps = [
       { label: 'Terms of Service', href: '/apps/nibango/terms' },
     ],
   },
+  {
+    id: '02',
+    name: 'Subtrackr',
+    type: 'Finance App',
+    desc: "Track all your subscriptions in one place. Know exactly what you're paying, when, and cancel what you don't need.",
+    status: 'In Development',
+    slug: 'subtrackr',
+    docs: [
+      { label: 'Privacy Policy', href: '/apps/subtrackr/privacy' },
+      { label: 'Terms of Service', href: '/apps/subtrackr/terms' },
+    ],
+  },
 ]
 
 export default function AppsPage() {
