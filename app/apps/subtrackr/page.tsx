@@ -106,7 +106,7 @@ export default function SubtrackrPage() {
           </h1>
 
           <p style={{ fontFamily: 'var(--font-syne)', fontSize: '1.1rem', color: 'rgba(240,237,232,0.5)', lineHeight: 1.7, maxWidth: '500px', marginBottom: '1rem' }}>
-            You're paying for more than you think.
+            You&apos;re paying for more than you think.
           </p>
           <p style={{ fontFamily: 'var(--font-syne)', fontSize: '1rem', color: 'rgba(240,237,232,0.35)', lineHeight: 1.7, maxWidth: '500px', marginBottom: '3rem' }}>
             Subtrackr tracks every subscription in one place — with alerts before renewals, a real monthly total, and zero surprises on your bank statement.
@@ -161,10 +161,10 @@ export default function SubtrackrPage() {
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
             <p style={{ fontFamily: 'var(--font-syne)', fontSize: '1rem', color: 'rgba(240,237,232,0.5)', lineHeight: 1.8, marginBottom: '1.5rem' }}>
-              The average person is subscribed to 12+ services and has no idea what they're paying monthly. Subtrackr fixes that — manually, privately, without connecting to your bank.
+              The average person is subscribed to 12+ services and has no idea what they&apos;re paying monthly. Subtrackr fixes that — manually, privately, without connecting to your bank.
             </p>
             <p style={{ fontFamily: 'var(--font-syne)', fontSize: '1rem', color: 'rgba(240,237,232,0.5)', lineHeight: 1.8 }}>
-              Add your subscriptions in seconds. Subtrackr does the math, sends the alerts, and shows you exactly where your money is going before you notice it's gone.
+              Add your subscriptions in seconds. Subtrackr does the math, sends the alerts, and shows you exactly where your money is going before you notice it&apos;s gone.
             </p>
           </motion.div>
         </div>
@@ -235,7 +235,7 @@ export default function SubtrackrPage() {
             Stop paying for<br /><span style={{ color: 'var(--lime)' }}>things you forgot.</span>
           </h2>
           <p style={{ fontFamily: 'var(--font-syne)', fontSize: '0.9rem', color: 'rgba(240,237,232,0.4)', marginBottom: '3rem', lineHeight: 1.7 }}>
-            Subtrackr is coming soon to iOS and Android.<br />Leave your email and we'll let you know when it's live.
+            Subtrackr is coming soon to iOS and Android.<br />Leave your email and we&apos;ll let you know when it&apos;s live.
           </p>
           <a href="mailto:info@beatlabs.ae?subject=Subtrackr early access"
             style={{
