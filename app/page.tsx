@@ -45,11 +45,8 @@ const studios = [
     url: 'https://truelovecreative.es',
     status: 'LIVE',
   },
-]
-
-const creative = [
   {
-    id: '01',
+    id: '03',
     name: 'Estrela.photo',
     type: 'Artist Portrait Photography',
     desc: 'Capturing identity, presence, and energy for musicians, creatives, and performers.',
@@ -69,7 +66,6 @@ const footerLinks = [
 export default function Home() {
   const [mousePos, setMousePos] = useState({ x: -200, y: -200 })
   const [hoveredStudio, setHoveredStudio] = useState<string | null>(null)
-  const [hoveredCreative, setHoveredCreative] = useState<string | null>(null)
   const [time, setTime] = useState('')
   const { scrollYProgress } = useScroll()
   const lineWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
@@ -389,78 +385,7 @@ export default function Home() {
             <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }} />
           </div>
 
-          {/* ─── CREATIVE ─── */}
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
-              <span style={{ fontSize: '0.6rem', color: 'var(--lime)', letterSpacing: '0.3em', fontFamily: 'var(--font-syne)', fontWeight: 700 }}>CREATIVE</span>
-              <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.06)' }} />
-            </div>
 
-            {creative.map((c, i) => (
-              <motion.div
-                key={c.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                onMouseEnter={() => setHoveredCreative(c.id)}
-                onMouseLeave={() => setHoveredCreative(null)}
-                style={{
-                  borderTop: '1px solid rgba(255,255,255,0.06)',
-                  padding: '2.5rem 0',
-                  background: hoveredCreative === c.id ? 'rgba(200,255,71,0.015)' : 'transparent',
-                  transition: 'background 0.4s',
-                }}
-              >
-                <div className="venture-grid" style={{ display: 'grid', gridTemplateColumns: '3rem 1fr auto', gap: '2rem', alignItems: 'center' }}>
-                  <span style={{ fontFamily: 'var(--font-bebas)', fontSize: '0.85rem', color: 'var(--muted)', letterSpacing: '0.1em' }}>{c.id}</span>
-
-                  <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
-                      <h3 style={{
-                        fontFamily: 'var(--font-bebas)',
-                        fontSize: 'clamp(2rem, 4vw, 3.5rem)',
-                        letterSpacing: '0.03em',
-                        color: hoveredCreative === c.id ? 'var(--lime)' : 'var(--white)',
-                        transition: 'color 0.3s',
-                        lineHeight: 1,
-                      }}>
-                        {c.name}
-                      </h3>
-                      <span style={{
-                        fontSize: '0.55rem', fontFamily: 'var(--font-syne)', fontWeight: 700,
-                        padding: '0.2rem 0.7rem', letterSpacing: '0.15em',
-                        border: '1px solid var(--lime)', color: 'var(--lime)',
-                      }}>
-                        {c.status}
-                      </span>
-                    </div>
-                    <p style={{ fontFamily: 'var(--font-syne)', fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.15em', marginBottom: '0.6rem' }}>
-                      {c.type.toUpperCase()}
-                    </p>
-                    <p style={{ fontFamily: 'var(--font-syne)', fontSize: '0.9rem', color: 'rgba(240,237,232,0.45)', lineHeight: 1.6, maxWidth: '520px' }}>
-                      {c.desc}
-                    </p>
-                  </div>
-
-                  <div className="venture-cta">
-                    <a href={c.url} target="_blank" rel="noopener noreferrer"
-                      style={{
-                        fontFamily: 'var(--font-syne)', fontSize: '0.65rem', letterSpacing: '0.2em', fontWeight: 700,
-                        color: hoveredCreative === c.id ? 'var(--black)' : 'var(--white)',
-                        background: hoveredCreative === c.id ? 'var(--lime)' : 'transparent',
-                        border: '1px solid rgba(255,255,255,0.15)',
-                        padding: '0.7rem 1.4rem', textDecoration: 'none',
-                        transition: 'all 0.3s', display: 'inline-block', whiteSpace: 'nowrap',
-                      }}>
-                      VISIT →
-                    </a>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-            <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }} />
-          </div>
         </section>
 
         {/* ── ABOUT ── */}
