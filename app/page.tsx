@@ -1,493 +1,877 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 
-const stats = [
-  { value: '7', label: 'In The Lab' },
-  { value: '2026', label: 'Founded' },
-  { value: 'UAE', label: 'Registered FZE' },
-  { value: '∞', label: 'Building' },
-]
-
-const appsData = [
-  {
-    name: 'SubTrackr',
-    desc: 'Track every subscription. Know what you pay, when, and why.',
-    status: 'COMING SOON',
-  },
-  {
-    name: 'TimeUp',
-    desc: 'Time management reimagined. Focus blocks, deep work, real accountability.',
-    status: 'COMING SOON',
-  },
-  {
-    name: 'Contrackr',
-    desc: 'Track shows, movies, comics, and books. Like Trakt — but for everything.',
-    status: 'COMING SOON',
-  },
-]
-
-const studios = [
+const labEntries = [
   {
     id: '01',
-    name: 'WebVanguard',
-    type: 'Web Design Agency',
-    desc: 'Websites that convert. Built for businesses across the Gulf.',
-    url: 'https://webvanguard.co',
-    status: 'LIVE',
+    name: 'NIBANGO',
+    category: 'FLAGSHIP',
+    desc: 'P2P marketplace for the Gulf. Buy and sell with trust.',
+    status: 'launching',
+    statusText: 'LAUNCHING SOON',
+    url: null,
   },
   {
     id: '02',
-    name: 'True Love Creative',
-    type: 'Branding & Identity Studio',
-    desc: 'Brand identity and visual design built with soul and intention.',
-    url: 'https://truelovecreative.es',
-    status: 'LIVE',
+    name: 'SUBTRACKR',
+    category: 'APPS',
+    desc: 'Track every subscription. Know what you pay and when.',
+    status: 'dev',
+    statusText: 'IN DEVELOPMENT',
+    url: null,
   },
   {
     id: '03',
-    name: 'Estrela.photo',
-    type: 'Artist Portrait Photography',
-    desc: 'Capturing identity, presence, and energy for musicians, creatives, and performers.',
+    name: 'TIMEUP',
+    category: 'APPS',
+    desc: 'Focus blocks and deep work. Real accountability for your time.',
+    status: 'dev',
+    statusText: 'IN DEVELOPMENT',
+    url: null,
+  },
+  {
+    id: '04',
+    name: 'CONTRACKR',
+    category: 'APPS',
+    desc: 'Track shows, movies, comics, and books. All in one place.',
+    status: 'dev',
+    statusText: 'IN DEVELOPMENT',
+    url: null,
+  },
+  {
+    id: '05',
+    name: 'WEBVANGUARD',
+    category: 'STUDIOS',
+    desc: 'Web design agency. Built for businesses across the Gulf.',
+    status: 'live',
+    statusText: 'LIVE',
+    url: 'https://webvanguard.co',
+  },
+  {
+    id: '06',
+    name: 'TRUE LOVE',
+    category: 'STUDIOS',
+    desc: 'Brand identity and visual design built with soul.',
+    status: 'live',
+    statusText: 'LIVE',
+    url: 'https://truelovecreative.es',
+  },
+  {
+    id: '07',
+    name: 'ESTRELA',
+    category: 'STUDIOS',
+    desc: 'Artist portrait photography. Identity, presence, energy.',
+    status: 'live',
+    statusText: 'LIVE',
     url: 'https://estrela.photo',
-    status: 'LIVE',
   },
 ]
 
-const footerLinks = [
-  { name: 'NIBANGO', url: 'https://nibango.com' },
-  { name: 'SUBTRACKR', url: '#' },
-  { name: 'WEBVANGUARD', url: 'https://webvanguard.co' },
-  { name: 'TRUELOVECREATIVE', url: 'https://truelovecreative.es' },
-  { name: 'ESTRELA.PHOTO', url: 'https://estrela.photo' },
+const sidebarIndexItems = [
+  { id: '01', name: 'NIBANGO', type: 'FLAGSHIP' },
+  { id: '02', name: 'SUBTRACKR', type: 'APPS' },
+  { id: '03', name: 'TIMEUP', type: 'APPS' },
+  { id: '04', name: 'CONTRACKR', type: 'APPS' },
+  { id: '05', name: 'WEBVANGUARD', type: 'STUDIOS' },
+  { id: '06', name: 'TRUELOVE', type: 'STUDIOS' },
+  { id: '07', name: 'ESTRELA', type: 'STUDIOS' },
 ]
+
+const sectionIds = ['hero', 'lab', 'about', 'contact']
 
 export default function Home() {
   const [mousePos, setMousePos] = useState({ x: -200, y: -200 })
-  const [hoveredStudio, setHoveredStudio] = useState<string | null>(null)
   const [time, setTime] = useState('')
-  const { scrollYProgress } = useScroll()
+  const [activeSection, setActiveSection] = useState<string>('hero')
+  const [hoveredRow, setHoveredRow] = useState<string | null>(null)
+  const [hoveredSidebarRow, setHoveredSidebarRow] = useState<string | null>(null)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const rightColRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({ container: rightColRef })
   const lineWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
 
+  // Custom cursor
   useEffect(() => {
     const move = (e: MouseEvent) => setMousePos({ x: e.clientX, y: e.clientY })
     window.addEventListener('mousemove', move)
     return () => window.removeEventListener('mousemove', move)
   }, [])
 
+  // Live clock
   useEffect(() => {
     const tick = () => {
-      setTime(new Date().toLocaleTimeString('en-AE', {
-        timeZone: 'Asia/Dubai', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
-      }))
+      setTime(
+        new Date().toLocaleTimeString('en-AE', {
+          timeZone: 'Asia/Dubai',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+        })
+      )
     }
     tick()
     const i = setInterval(tick, 1000)
     return () => clearInterval(i)
   }, [])
 
+  // IntersectionObserver for active section
+  useEffect(() => {
+    const container = rightColRef.current
+    if (!container) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id)
+          }
+        })
+      },
+      {
+        root: container,
+        rootMargin: '-30% 0px -60% 0px',
+        threshold: 0,
+      }
+    )
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
+  const scrollToSection = useCallback((id: string) => {
+    const el = document.getElementById(id)
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+    setMobileMenuOpen(false)
+  }, [])
+
+  const fadeUp = {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, root: rightColRef },
+    transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const },
+  }
+
+  const getStatusDot = (status: string) => {
+    if (status === 'launching') return { char: '◉', color: 'var(--lime)' }
+    if (status === 'dev') return { char: '○', color: 'var(--muted)' }
+    if (status === 'live') return { char: '●', color: 'var(--lime)' }
+    return { char: '○', color: 'var(--muted)' }
+  }
+
   return (
     <>
       <div className="cursor" style={{ left: mousePos.x, top: mousePos.y }} />
 
-      <motion.div className="fixed top-0 left-0 h-[1px] z-50" style={{ width: lineWidth, background: 'var(--lime)' }} />
+      <motion.div
+        className="fixed top-0 left-0 h-[1px] z-50"
+        style={{ width: lineWidth, background: 'var(--lime)' }}
+      />
 
-      <main style={{ background: 'var(--black)', minHeight: '100vh', cursor: 'none' }}>
-
-        {/* ── NAV ── */}
-        <motion.nav
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+      {/* ── MOBILE TOP BAR ── */}
+      <div
+        className="mobile-topbar"
+        style={{
+          display: 'none',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          padding: '1rem 1.5rem',
+          background: 'rgba(8,8,8,0.95)',
+          backdropFilter: 'blur(12px)',
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <img src="/logo.png" alt="beatLabs" style={{ height: '1.4rem' }} />
+        <button
+          onClick={() => {
+            setMobileMenuOpen(!mobileMenuOpen)
+            if (!mobileMenuOpen) scrollToSection('lab')
+          }}
           style={{
-            position: 'fixed', top: 0, left: 0, right: 0, zIndex: 40,
-            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-            padding: '1.2rem 1.5rem',
-            borderBottom: '1px solid rgba(255,255,255,0.04)',
-            background: 'rgba(8,8,8,0.85)',
-            backdropFilter: 'blur(12px)',
+            background: 'none',
+            border: '1px solid rgba(255,255,255,0.12)',
+            color: 'var(--white)',
+            fontFamily: 'var(--font-syne)',
+            fontSize: '0.6rem',
+            letterSpacing: '0.2em',
+            padding: '0.4rem 1rem',
+            fontWeight: 700,
           }}
         >
-          <img src="/logo.png" alt="beatLabs" style={{ height: '1.8rem', width: 'auto' }} />
-          <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-            <span className="nav-time" style={{ fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.2em', fontFamily: 'var(--font-syne)' }}>
-              DXB {time}
-            </span>
-            <a href="#lab" style={{ fontSize: '0.65rem', color: 'var(--white)', letterSpacing: '0.2em', textDecoration: 'none', fontFamily: 'var(--font-syne)', fontWeight: 700 }}>
-              THE LAB
-            </a>
-            <a href="/apps" style={{ fontSize: '0.65rem', color: 'var(--white)', letterSpacing: '0.2em', textDecoration: 'none', fontFamily: 'var(--font-syne)', fontWeight: 700 }}>
-              APPS
-            </a>
-            <a href="mailto:info@beatlabs.ae" style={{ fontSize: '0.65rem', color: 'var(--lime)', letterSpacing: '0.2em', textDecoration: 'none', fontFamily: 'var(--font-syne)', fontWeight: 700, border: '1px solid var(--lime)', padding: '0.4rem 0.9rem' }}>
-              CONTACT
-            </a>
-          </div>
-        </motion.nav>
+          MENU
+        </button>
+      </div>
 
-        {/* ── HERO ── */}
-        <section style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '8rem 2.5rem 4rem', position: 'relative', overflow: 'hidden' }}>
+      <main
+        style={{
+          background: 'var(--black)',
+          height: '100vh',
+          display: 'flex',
+          overflow: 'hidden',
+          cursor: 'none',
+        }}
+      >
+        {/* ══════════════════════════════════════════════════════ */}
+        {/* LEFT SIDEBAR — 30%, fixed                            */}
+        {/* ══════════════════════════════════════════════════════ */}
+        <aside
+          className="desktop-sidebar"
+          style={{
+            width: '30%',
+            minWidth: '280px',
+            maxWidth: '380px',
+            height: '100vh',
+            position: 'relative',
+            borderRight: '1px solid rgba(255,255,255,0.06)',
+            padding: '2rem 2rem',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            flexShrink: 0,
+            overflow: 'hidden',
+          }}
+        >
+          {/* Top section */}
+          <div>
+            {/* Logo */}
+            <img
+              src="/logo.png"
+              alt="beatLabs"
+              style={{ height: '1.4rem', marginBottom: '1.2rem', display: 'block' }}
+            />
 
-          {/* BG grid */}
-          <div style={{
-            position: 'absolute', inset: 0, pointerEvents: 'none',
-            backgroundImage: 'linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)',
-            backgroundSize: '60px 60px',
-            maskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%)',
-          }} />
-
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            style={{ position: 'relative', maxWidth: '700px' }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
-              <div style={{ width: '2rem', height: '1px', background: 'var(--lime)' }} />
-              <span style={{ fontSize: '0.65rem', color: 'var(--lime)', letterSpacing: '0.25em', fontFamily: 'var(--font-syne)', fontWeight: 700 }}>STUDIO</span>
-            </div>
-
-            <h1 style={{ fontFamily: 'var(--font-bebas)', fontSize: 'clamp(4rem, 10vw, 10rem)', lineHeight: 0.88, letterSpacing: '-0.01em', color: 'var(--white)', marginBottom: '2.5rem' }}>
-              We Build<br />
-              <span style={{ color: 'var(--lime)' }}>Companies.</span><br />
-              <span style={{ color: 'rgba(255,255,255,0.2)' }}>Not Projects.</span>
-            </h1>
-
-            <p style={{ fontFamily: 'var(--font-syne)', fontSize: '1rem', color: 'rgba(240,237,232,0.5)', lineHeight: 1.7, maxWidth: '480px', marginBottom: '3rem' }}>
-              beatLabs is the studio behind a growing ecosystem of apps, agencies, and creative brands. Based in Ajman, UAE. Built to last.
-            </p>
-
-            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-              <a href="#lab" style={{ fontFamily: 'var(--font-syne)', fontSize: '0.7rem', letterSpacing: '0.2em', fontWeight: 700, color: 'var(--black)', background: 'var(--lime)', padding: '0.8rem 2rem', textDecoration: 'none' }}>
-                THE LAB →
-              </a>
-              <a href="mailto:info@beatlabs.ae" style={{ fontFamily: 'var(--font-syne)', fontSize: '0.7rem', letterSpacing: '0.2em', fontWeight: 700, color: 'var(--white)', border: '1px solid rgba(255,255,255,0.2)', padding: '0.8rem 2rem', textDecoration: 'none' }}>
-                GET IN TOUCH
-              </a>
-            </div>
-          </motion.div>
-        </section>
-
-        {/* ── STATS ── */}
-        <section style={{ borderTop: '1px solid rgba(255,255,255,0.06)', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '3rem 2.5rem' }}>
-          <div className="stats-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem' }}>
-            {stats.map((s, i) => (
-              <motion.div key={s.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                style={{ textAlign: 'center' }}
-              >
-                <div style={{ fontFamily: 'var(--font-bebas)', fontSize: 'clamp(2.5rem, 5vw, 4rem)', color: 'var(--lime)', letterSpacing: '0.05em', lineHeight: 1 }}>
-                  {s.value}
-                </div>
-                <div style={{ fontFamily: 'var(--font-syne)', fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.2em', marginTop: '0.5rem' }}>
-                  {s.label.toUpperCase()}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-
-        {/* ── THE LAB ── */}
-        <section id="lab" style={{ padding: '6rem 2.5rem' }}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            style={{ marginBottom: '4rem' }}
-          >
-            <h2 style={{ fontFamily: 'var(--font-bebas)', fontSize: 'clamp(3rem, 6vw, 6rem)', letterSpacing: '0.05em', color: 'var(--white)', lineHeight: 1 }}>
-              The Lab
-            </h2>
-          </motion.div>
-
-          {/* ─── APPS ─── */}
-          <div style={{ marginBottom: '4rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
-              <span style={{ fontSize: '0.6rem', color: 'var(--lime)', letterSpacing: '0.3em', fontFamily: 'var(--font-syne)', fontWeight: 700 }}>APPS</span>
-              <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.06)' }} />
-            </div>
-
-            {/* Nibango — Flagship Hero Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+            {/* Live clock */}
+            <div
               style={{
-                border: '1px solid rgba(200,255,71,0.15)',
-                padding: 'clamp(2rem, 4vw, 3.5rem)',
-                marginBottom: '2rem',
-                position: 'relative',
-                overflow: 'hidden',
-                background: 'linear-gradient(135deg, rgba(200,255,71,0.03) 0%, rgba(8,8,8,1) 70%)',
+                fontFamily: 'var(--font-syne)',
+                fontSize: '0.6rem',
+                color: 'var(--lime)',
+                letterSpacing: '0.15em',
+                marginBottom: '1.5rem',
               }}
             >
-              {/* Flagship badge */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-                <span style={{
-                  fontSize: '0.55rem', fontFamily: 'var(--font-syne)', fontWeight: 700,
-                  padding: '0.25rem 0.8rem', letterSpacing: '0.2em',
-                  background: 'var(--lime)', color: 'var(--black)',
-                }}>
-                  OUR FLAGSHIP
-                </span>
-                <span style={{
-                  fontSize: '0.55rem', fontFamily: 'var(--font-syne)', fontWeight: 700,
-                  padding: '0.25rem 0.8rem', letterSpacing: '0.15em',
-                  border: '1px solid rgba(255,255,255,0.12)', color: 'var(--muted)',
-                }}>
-                  COMING SOON
-                </span>
-              </div>
+              DXB {time}
+            </div>
 
-              <h3 style={{
-                fontFamily: 'var(--font-bebas)',
-                fontSize: 'clamp(2.5rem, 5vw, 4.5rem)',
-                letterSpacing: '0.03em',
-                color: 'var(--white)',
-                lineHeight: 1,
+            {/* Divider */}
+            <div
+              style={{
+                height: '1px',
+                background: 'rgba(255,255,255,0.06)',
+                marginBottom: '1.5rem',
+              }}
+            />
+
+            {/* Company info */}
+            <div
+              style={{
+                fontFamily: 'var(--font-syne)',
+                fontSize: '0.6rem',
+                color: 'var(--muted)',
+                letterSpacing: '0.08em',
+                lineHeight: 1.8,
+                marginBottom: '1.5rem',
+              }}
+            >
+              BEATLABS FZE LLC
+              <br />
+              License No. 53228
+              <br />
+              Ajman Media City
+              <br />
+              Free Zone, UAE
+            </div>
+
+            {/* Divider */}
+            <div
+              style={{
+                height: '1px',
+                background: 'rgba(255,255,255,0.06)',
+                marginBottom: '1.5rem',
+              }}
+            />
+
+            {/* INDEX label */}
+            <div
+              style={{
+                fontFamily: 'var(--font-syne)',
+                fontSize: '0.55rem',
+                color: 'var(--muted)',
+                letterSpacing: '0.25em',
                 marginBottom: '1rem',
-              }}>
-                Nibango
-              </h3>
-
-              <p style={{ fontFamily: 'var(--font-syne)', fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.15em', marginBottom: '1rem' }}>
-                MARKETPLACE APP · P2P COMMERCE
-              </p>
-
-              <p style={{ fontFamily: 'var(--font-syne)', fontSize: '1rem', color: 'rgba(240,237,232,0.5)', lineHeight: 1.7, maxWidth: '520px', marginBottom: '2rem' }}>
-                Peer-to-peer second-hand marketplace reimagined for the Gulf. Buy, sell, trust. A new way to trade in the region.
-              </p>
-
-              <div style={{
-                display: 'inline-flex', alignItems: 'center', gap: '0.6rem',
-                fontFamily: 'var(--font-syne)', fontSize: '0.65rem', letterSpacing: '0.2em', fontWeight: 700,
-                color: 'var(--lime)',
-              }}>
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--lime)', animation: 'pulse 2s infinite' }} />
-                LAUNCHING SOON
-              </div>
-            </motion.div>
-
-            {/* Other Apps — 3-col grid */}
-            <div className="pillars-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1px' }}>
-              {appsData.map((app, i) => (
-                <motion.div
-                  key={app.name}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
-                  style={{
-                    border: '1px solid rgba(255,255,255,0.06)',
-                    padding: '2rem',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-                    <h4 style={{
-                      fontFamily: 'var(--font-bebas)',
-                      fontSize: 'clamp(1.5rem, 2.5vw, 2rem)',
-                      letterSpacing: '0.03em',
-                      color: 'var(--white)',
-                      lineHeight: 1,
-                    }}>
-                      {app.name}
-                    </h4>
-                    <span style={{
-                      fontSize: '0.5rem', fontFamily: 'var(--font-syne)', fontWeight: 700,
-                      padding: '0.2rem 0.6rem', letterSpacing: '0.15em',
-                      border: '1px solid rgba(255,255,255,0.1)', color: 'var(--muted)',
-                    }}>
-                      {app.status}
-                    </span>
-                  </div>
-                  <p style={{ fontFamily: 'var(--font-syne)', fontSize: '0.85rem', color: 'rgba(240,237,232,0.4)', lineHeight: 1.6 }}>
-                    {app.desc}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          {/* ─── STUDIOS ─── */}
-          <div style={{ marginBottom: '4rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
-              <span style={{ fontSize: '0.6rem', color: 'var(--lime)', letterSpacing: '0.3em', fontFamily: 'var(--font-syne)', fontWeight: 700 }}>CREATIVE STUDIOS</span>
-              <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.06)' }} />
+                fontWeight: 700,
+              }}
+            >
+              INDEX
             </div>
 
-            {studios.map((s, i) => (
-              <motion.div
-                key={s.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                onMouseEnter={() => setHoveredStudio(s.id)}
-                onMouseLeave={() => setHoveredStudio(null)}
-                style={{
-                  borderTop: '1px solid rgba(255,255,255,0.06)',
-                  padding: '2.5rem 0',
-                  background: hoveredStudio === s.id ? 'rgba(200,255,71,0.015)' : 'transparent',
-                  transition: 'background 0.4s',
-                }}
-              >
-                <div className="venture-grid" style={{ display: 'grid', gridTemplateColumns: '3rem 1fr auto', gap: '2rem', alignItems: 'center' }}>
-                  <span style={{ fontFamily: 'var(--font-bebas)', fontSize: '0.85rem', color: 'var(--muted)', letterSpacing: '0.1em' }}>{s.id}</span>
+            {/* Index rows */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
+              {sidebarIndexItems.map((item) => {
+                const isHovered = hoveredSidebarRow === item.id
+                const highlight = isHovered
 
-                  <div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '0.5rem' }}>
-                      <h3 style={{
-                        fontFamily: 'var(--font-bebas)',
-                        fontSize: 'clamp(2rem, 4vw, 3.5rem)',
-                        letterSpacing: '0.03em',
-                        color: hoveredStudio === s.id ? 'var(--lime)' : 'var(--white)',
-                        transition: 'color 0.3s',
-                        lineHeight: 1,
-                      }}>
-                        {s.name}
-                      </h3>
-                      <span style={{
-                        fontSize: '0.55rem', fontFamily: 'var(--font-syne)', fontWeight: 700,
-                        padding: '0.2rem 0.7rem', letterSpacing: '0.15em',
-                        border: '1px solid var(--lime)', color: 'var(--lime)',
-                      }}>
-                        {s.status}
+                return (
+                  <div
+                    key={item.id}
+                    onClick={() => scrollToSection('lab')}
+                    onMouseEnter={() => setHoveredSidebarRow(item.id)}
+                    onMouseLeave={() => setHoveredSidebarRow(null)}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      padding: '0.35rem 0.5rem',
+                      cursor: 'pointer',
+                      borderRadius: '2px',
+                      transition: 'all 0.2s',
+                      background: highlight
+                        ? 'rgba(200,255,71,0.04)'
+                        : 'transparent',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                      <span
+                        style={{
+                          fontFamily: 'var(--font-syne)',
+                          fontSize: '0.6rem',
+                          color: 'var(--lime)',
+                          letterSpacing: '0.05em',
+                          fontWeight: 700,
+                          width: '1.2rem',
+                        }}
+                      >
+                        {item.id}
+                      </span>
+                      <span
+                        style={{
+                          fontFamily: 'var(--font-syne)',
+                          fontSize: '0.6rem',
+                          color: highlight ? 'var(--lime)' : 'var(--muted)',
+                          letterSpacing: '0.08em',
+                          transition: 'color 0.2s',
+                        }}
+                      >
+                        {item.name}
                       </span>
                     </div>
-                    <p style={{ fontFamily: 'var(--font-syne)', fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.15em', marginBottom: '0.6rem' }}>
-                      {s.type.toUpperCase()}
-                    </p>
-                    <p style={{ fontFamily: 'var(--font-syne)', fontSize: '0.9rem', color: 'rgba(240,237,232,0.45)', lineHeight: 1.6, maxWidth: '520px' }}>
-                      {s.desc}
-                    </p>
-                  </div>
-
-                  <div className="venture-cta">
-                    <a href={s.url} target="_blank" rel="noopener noreferrer"
+                    <span
                       style={{
-                        fontFamily: 'var(--font-syne)', fontSize: '0.65rem', letterSpacing: '0.2em', fontWeight: 700,
-                        color: hoveredStudio === s.id ? 'var(--black)' : 'var(--white)',
-                        background: hoveredStudio === s.id ? 'var(--lime)' : 'transparent',
-                        border: '1px solid rgba(255,255,255,0.15)',
-                        padding: '0.7rem 1.4rem', textDecoration: 'none',
-                        transition: 'all 0.3s', display: 'inline-block', whiteSpace: 'nowrap',
-                      }}>
-                      VISIT →
-                    </a>
+                        fontFamily: 'var(--font-syne)',
+                        fontSize: '0.5rem',
+                        color: highlight ? 'var(--lime)' : 'rgba(85,85,85,0.5)',
+                        letterSpacing: '0.1em',
+                        transition: 'color 0.2s',
+                      }}
+                    >
+                      {item.type}
+                    </span>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-            <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }} />
+                )
+              })}
+            </div>
           </div>
 
-
-        </section>
-
-        {/* ── ABOUT ── */}
-        <section className="about-grid" style={{ padding: '6rem 2.5rem', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'start' }}>
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <span style={{ fontSize: '0.65rem', color: 'var(--lime)', letterSpacing: '0.25em', fontFamily: 'var(--font-syne)', fontWeight: 700, display: 'block', marginBottom: '2rem' }}>THE STUDIO</span>
-            <h2 style={{ fontFamily: 'var(--font-bebas)', fontSize: 'clamp(2.5rem, 5vw, 5rem)', color: 'var(--white)', lineHeight: 0.9, letterSpacing: '0.02em' }}>
-              One founder.<br />
-              <span style={{ color: 'rgba(255,255,255,0.25)' }}>Many bets.</span>
-            </h2>
-          </motion.div>
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}>
-            <p style={{ fontFamily: 'var(--font-syne)', fontSize: '1rem', color: 'rgba(240,237,232,0.55)', lineHeight: 1.8, marginBottom: '1.5rem' }}>
-              beatLabs is the holding entity behind everything I build. Each project has its own identity, its own audience, its own path. Some will be apps. Some agencies. Some just experiments. All of them built properly — clean code, real design, business logic from day one.
-            </p>
-            <p style={{ fontFamily: 'var(--font-syne)', fontSize: '1rem', color: 'rgba(240,237,232,0.55)', lineHeight: 1.8, marginBottom: '1.5rem' }}>
-              {"I'm Francisco Javier. I work from Ajman, UAE. I design, I code, I launch. When I need a team, I bring the right people in."}
-            </p>
-            <p style={{ fontFamily: 'var(--font-syne)', fontSize: '1rem', color: 'var(--lime)', lineHeight: 1.8, fontWeight: 700 }}>
-              Based in the Gulf. Building globally.
-            </p>
-          </motion.div>
-        </section>
-
-        {/* ── CONTACT ── */}
-        <section style={{ padding: '6rem 2.5rem', borderTop: '1px solid rgba(255,255,255,0.06)', textAlign: 'center' }}>
-          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <span style={{ fontSize: '0.65rem', color: 'var(--lime)', letterSpacing: '0.25em', fontFamily: 'var(--font-syne)', fontWeight: 700, display: 'block', marginBottom: '2rem' }}>GET IN TOUCH</span>
-            <h2 style={{ fontFamily: 'var(--font-bebas)', fontSize: 'clamp(3rem, 7vw, 7rem)', color: 'var(--white)', lineHeight: 0.9, letterSpacing: '-0.01em', marginBottom: '2.5rem' }}>
-              {"Let's Build"}<br />
-              <span style={{ color: 'var(--lime)' }}>Something.</span>
-            </h2>
-            <p style={{ fontFamily: 'var(--font-syne)', fontSize: '0.9rem', color: 'rgba(240,237,232,0.4)', marginBottom: '3rem', lineHeight: 1.7 }}>
-              Partnership inquiries, collaboration, or just a conversation<br />{"about what we're building next."}
-            </p>
-            <a href="mailto:info@beatlabs.ae"
+          {/* Bottom section */}
+          <div>
+            {/* Divider */}
+            <div
               style={{
-                fontFamily: 'var(--font-syne)', fontSize: '0.75rem', letterSpacing: '0.25em', fontWeight: 700,
-                color: 'var(--black)', background: 'var(--lime)',
-                padding: '1rem 3rem', textDecoration: 'none', display: 'inline-block',
-              }}>
-              info@beatlabs.ae →
+                height: '1px',
+                background: 'rgba(255,255,255,0.06)',
+                marginBottom: '1.2rem',
+              }}
+            />
+            <a
+              href="mailto:info@beatlabs.ae"
+              style={{
+                fontFamily: 'var(--font-syne)',
+                fontSize: '0.6rem',
+                color: 'var(--muted)',
+                letterSpacing: '0.08em',
+                textDecoration: 'none',
+                display: 'block',
+                marginBottom: '0.6rem',
+              }}
+            >
+              info@beatlabs.ae
             </a>
-          </motion.div>
-        </section>
-
-        {/* ── FOOTER ── */}
-        <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
-          {/* Main footer row */}
-          <div className="footer-grid" style={{
-            padding: '3rem 2.5rem',
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr 1fr',
-            alignItems: 'start',
-            gap: '2rem',
-          }}>
-            {/* Left */}
-            <div>
-              <img src="/logo.png" alt="beatLabs" style={{ height: '1.6rem', marginBottom: '0.8rem', display: 'block' }} />
-              <span style={{ fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.1em', fontFamily: 'var(--font-syne)', display: 'block', marginBottom: '0.3rem' }}>
-                BeatLabs FZE LLC
-              </span>
-              <span style={{ fontSize: '0.5rem', color: 'rgba(85,85,85,0.6)', letterSpacing: '0.08em', fontFamily: 'var(--font-syne)', display: 'block' }}>
-                License No. 53228 | Ajman Media City Free Zone, UAE
-              </span>
+            <div
+              style={{
+                fontFamily: 'var(--font-syne)',
+                fontSize: '0.55rem',
+                color: 'var(--lime)',
+                letterSpacing: '0.2em',
+                fontWeight: 700,
+                opacity: activeSection === 'hero' ? 1 : 0.6,
+                transition: 'opacity 0.3s',
+              }}
+            >
+              BUILD DIFFERENT.
             </div>
+          </div>
+        </aside>
 
-            {/* Center */}
-            <div>
-              <div className="footer-links" style={{ display: 'flex', justifyContent: 'center', gap: '1.2rem', flexWrap: 'wrap' }}>
-                {footerLinks.map(link => (
-                  <a key={link.name} href={link.url} target={link.url.startsWith('http') ? '_blank' : undefined} rel={link.url.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    style={{ fontSize: '0.6rem', color: 'var(--muted)', letterSpacing: '0.12em', fontFamily: 'var(--font-syne)', fontWeight: 700, textDecoration: 'none' }}>
-                    {link.name}
-                  </a>
-                ))}
-              </div>
+        {/* ══════════════════════════════════════════════════════ */}
+        {/* RIGHT COLUMN — 70%, scrollable                        */}
+        {/* ══════════════════════════════════════════════════════ */}
+        <div
+          ref={rightColRef}
+          className="right-column"
+          style={{
+            flex: 1,
+            height: '100vh',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+          }}
+        >
+          {/* ── SECTION 1: HERO ── */}
+          <section
+            id="hero"
+            style={{
+              minHeight: '100vh',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              padding: '6rem 2.5rem 4rem',
+              position: 'relative',
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <h1
+                style={{
+                  fontFamily: 'var(--font-bebas)',
+                  fontSize: 'clamp(5rem, 12vw, 13rem)',
+                  lineHeight: 0.85,
+                  letterSpacing: '-0.01em',
+                  color: 'var(--white)',
+                  marginBottom: '0',
+                }}
+              >
+                WE BUILD
+                <br />
+                COMPANIES.
+              </h1>
+              <h1
+                style={{
+                  fontFamily: 'var(--font-bebas)',
+                  fontSize: 'clamp(5rem, 12vw, 13rem)',
+                  lineHeight: 0.85,
+                  letterSpacing: '-0.01em',
+                  color: 'rgba(255,255,255,0.15)',
+                  marginTop: '0.1em',
+                }}
+              >
+                NOT PROJECTS.
+              </h1>
+            </motion.div>
+
+            {/* Bottom of hero */}
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '4rem',
+                left: '2.5rem',
+                right: '2.5rem',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'flex-end',
+              }}
+            >
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.8 }}
+                style={{
+                  fontFamily: 'var(--font-syne)',
+                  fontSize: '0.8rem',
+                  color: 'var(--muted)',
+                  lineHeight: 1.7,
+                  maxWidth: '420px',
+                }}
+              >
+                beatLabs is the studio behind a growing ecosystem of apps,
+                agencies, and creative brands. Based in Ajman, UAE.
+              </motion.p>
+
+              {/* Scroll indicator */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, y: [0, 8, 0] }}
+                transition={{
+                  opacity: { delay: 0.8, duration: 0.5 },
+                  y: { repeat: Infinity, duration: 1.5, ease: 'easeInOut' },
+                }}
+                onClick={() => scrollToSection('lab')}
+                style={{
+                  color: 'var(--lime)',
+                  fontSize: '1.5rem',
+                  cursor: 'pointer',
+                  lineHeight: 1,
+                }}
+              >
+                ↓
+              </motion.div>
             </div>
+          </section>
 
-            {/* Right */}
-            <div className="footer-right" style={{ textAlign: 'right' }}>
-              <a href="mailto:info@beatlabs.ae"
-                style={{ fontSize: '0.65rem', color: 'var(--muted)', letterSpacing: '0.15em', fontFamily: 'var(--font-syne)', textDecoration: 'none', display: 'block', marginBottom: '0.4rem' }}>
+          {/* ── SECTION 2: THE LAB ── */}
+          <section
+            id="lab"
+            style={{
+              padding: '6rem 2.5rem',
+              borderTop: '1px solid rgba(255,255,255,0.06)',
+            }}
+          >
+            <motion.div {...fadeUp}>
+              <span
+                style={{
+                  fontFamily: 'var(--font-syne)',
+                  fontSize: '0.6rem',
+                  color: 'var(--lime)',
+                  letterSpacing: '0.25em',
+                  fontWeight: 700,
+                  display: 'block',
+                  marginBottom: '3rem',
+                }}
+              >
+                THE LAB — 7 PRODUCTS
+              </span>
+            </motion.div>
+
+            {/* Lab rows */}
+            <div>
+              {labEntries.map((entry, i) => {
+                const dot = getStatusDot(entry.status)
+                const isHovered = hoveredRow === entry.id
+                const isFlagship = entry.category === 'FLAGSHIP'
+
+                return (
+                  <motion.div
+                    key={entry.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, root: rightColRef }}
+                    transition={{ delay: i * 0.05, duration: 0.6 }}
+                    onMouseEnter={() => setHoveredRow(entry.id)}
+                    onMouseLeave={() => setHoveredRow(null)}
+                    style={{
+                      borderTop: '1px solid rgba(255,255,255,0.06)',
+                      padding: '1.8rem 1rem',
+                      background: isHovered
+                        ? 'rgba(200,255,71,0.04)'
+                        : 'transparent',
+                      transition: 'background 0.3s',
+                    }}
+                  >
+                    <div
+                      className="lab-row"
+                      style={{
+                        display: 'grid',
+                        gridTemplateColumns: '2.5rem 1fr auto auto auto auto',
+                        gap: '1.5rem',
+                        alignItems: 'center',
+                      }}
+                    >
+                      {/* Number */}
+                      <span
+                        style={{
+                          fontFamily: 'var(--font-syne)',
+                          fontSize: '0.65rem',
+                          color: 'var(--lime)',
+                          letterSpacing: '0.05em',
+                          fontWeight: 700,
+                        }}
+                      >
+                        {entry.id}
+                      </span>
+
+                      {/* Name */}
+                      <h3
+                        style={{
+                          fontFamily: 'var(--font-bebas)',
+                          fontSize: 'clamp(1.8rem, 3vw, 3rem)',
+                          letterSpacing: '0.03em',
+                          color: isHovered ? 'var(--lime)' : 'var(--white)',
+                          transition: 'color 0.3s',
+                          lineHeight: 1,
+                        }}
+                      >
+                        {entry.name}
+                      </h3>
+
+                      {/* Category pill */}
+                      <span
+                        style={{
+                          fontFamily: 'var(--font-syne)',
+                          fontSize: '0.5rem',
+                          fontWeight: 700,
+                          letterSpacing: '0.15em',
+                          padding: '0.25rem 0.7rem',
+                          background: isFlagship
+                            ? 'var(--lime)'
+                            : 'transparent',
+                          color: isFlagship ? 'var(--black)' : 'var(--muted)',
+                          border: isFlagship
+                            ? 'none'
+                            : '1px solid rgba(255,255,255,0.1)',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {entry.category}
+                      </span>
+
+                      {/* Description */}
+                      <p
+                        className="lab-row-desc"
+                        style={{
+                          fontFamily: 'var(--font-syne)',
+                          fontSize: '0.75rem',
+                          color: 'rgba(240,237,232,0.4)',
+                          lineHeight: 1.5,
+                          maxWidth: '280px',
+                          minWidth: '160px',
+                        }}
+                      >
+                        {entry.desc}
+                      </p>
+
+                      {/* Status */}
+                      <div
+                        className="lab-row-status"
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        <span style={{ color: dot.color, fontSize: '0.7rem' }}>
+                          {dot.char}
+                        </span>
+                        <span
+                          style={{
+                            fontFamily: 'var(--font-syne)',
+                            fontSize: '0.5rem',
+                            color: dot.color,
+                            letterSpacing: '0.12em',
+                            fontWeight: 700,
+                          }}
+                        >
+                          {entry.statusText}
+                        </span>
+                      </div>
+
+                      {/* Link */}
+                      <div style={{ minWidth: '2rem', textAlign: 'right' }}>
+                        {entry.url ? (
+                          <a
+                            href={entry.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              fontFamily: 'var(--font-syne)',
+                              fontSize: '0.7rem',
+                              color: 'var(--lime)',
+                              textDecoration: 'none',
+                              fontWeight: 700,
+                            }}
+                          >
+                            →
+                          </a>
+                        ) : (
+                          <span
+                            style={{
+                              fontFamily: 'var(--font-syne)',
+                              fontSize: '0.7rem',
+                              color: 'rgba(85,85,85,0.3)',
+                            }}
+                          >
+                            —
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                )
+              })}
+              {/* Bottom border */}
+              <div
+                style={{
+                  borderTop: '1px solid rgba(255,255,255,0.06)',
+                }}
+              />
+            </div>
+          </section>
+
+          {/* ── SECTION 3: ABOUT ── */}
+          <section
+            id="about"
+            className="about-section"
+            style={{
+              padding: '6rem 2.5rem',
+              borderTop: '1px solid rgba(255,255,255,0.06)',
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '4rem',
+              alignItems: 'start',
+            }}
+          >
+            <motion.div {...fadeUp}>
+              <h2
+                style={{
+                  fontFamily: 'var(--font-bebas)',
+                  fontSize: 'clamp(3rem, 7vw, 7rem)',
+                  lineHeight: 0.9,
+                  letterSpacing: '0.02em',
+                }}
+              >
+                <span style={{ color: 'var(--white)', display: 'block' }}>
+                  ONE
+                </span>
+                <span
+                  style={{
+                    color: 'rgba(255,255,255,0.15)',
+                    display: 'block',
+                  }}
+                >
+                  FOUNDER.
+                </span>
+                <span style={{ color: 'var(--white)', display: 'block' }}>
+                  MANY
+                </span>
+                <span
+                  style={{
+                    color: 'rgba(255,255,255,0.15)',
+                    display: 'block',
+                  }}
+                >
+                  BETS.
+                </span>
+              </h2>
+            </motion.div>
+
+            <motion.div
+              {...fadeUp}
+              transition={{ delay: 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              style={{ paddingTop: '1rem' }}
+            >
+              <p
+                style={{
+                  fontFamily: 'var(--font-syne)',
+                  fontSize: '0.9rem',
+                  color: 'rgba(240,237,232,0.55)',
+                  lineHeight: 1.8,
+                  marginBottom: '1.5rem',
+                }}
+              >
+                beatLabs is the holding entity behind everything I build. Each
+                project has its own identity, its own audience, its own path.
+                Some will be apps. Some agencies. Some just experiments. All of
+                them built properly — clean code, real design, business logic
+                from day one.
+              </p>
+              <p
+                style={{
+                  fontFamily: 'var(--font-syne)',
+                  fontSize: '0.9rem',
+                  color: 'rgba(240,237,232,0.55)',
+                  lineHeight: 1.8,
+                  marginBottom: '1.5rem',
+                }}
+              >
+                {"I'm Francisco Javier. I work from Ajman, UAE. I design, I code, I launch. When I need a team, I bring the right people in."}
+              </p>
+              <p
+                style={{
+                  fontFamily: 'var(--font-syne)',
+                  fontSize: '0.9rem',
+                  color: 'var(--lime)',
+                  lineHeight: 1.8,
+                  fontWeight: 700,
+                }}
+              >
+                Based in the Gulf. Building globally.
+              </p>
+            </motion.div>
+          </section>
+
+          {/* ── SECTION 4: CONTACT ── */}
+          <section
+            id="contact"
+            style={{
+              padding: '8rem 2.5rem',
+              borderTop: '1px solid rgba(255,255,255,0.06)',
+            }}
+          >
+            <motion.div {...fadeUp}>
+              <a
+                href="mailto:info@beatlabs.ae"
+                style={{
+                  fontFamily: 'var(--font-bebas)',
+                  fontSize: 'clamp(3rem, 8vw, 8rem)',
+                  color: 'var(--lime)',
+                  textDecoration: 'none',
+                  lineHeight: 1,
+                  display: 'block',
+                  letterSpacing: '-0.01em',
+                }}
+              >
                 info@beatlabs.ae
               </a>
-              <div style={{ fontSize: '0.55rem', color: 'rgba(85,85,85,0.4)', letterSpacing: '0.1em', fontFamily: 'var(--font-syne)' }}>
-                BUILD DIFFERENT.
-              </div>
-            </div>
-          </div>
+              <p
+                style={{
+                  fontFamily: 'var(--font-syne)',
+                  fontSize: '0.8rem',
+                  color: 'var(--muted)',
+                  marginTop: '1.5rem',
+                  lineHeight: 1.6,
+                }}
+              >
+                Partnership inquiries, investment, or just a conversation.
+              </p>
+            </motion.div>
+          </section>
 
-          {/* Legal bar */}
-          <div style={{
-            borderTop: '1px solid rgba(255,255,255,0.04)',
-            padding: '1rem 2.5rem',
-          }}>
-            <p style={{ fontSize: '0.55rem', color: '#333', letterSpacing: '0.06em', fontFamily: 'var(--font-syne)', lineHeight: 1.8 }}>
-              © 2026 BeatLabs FZE LLC. All rights reserved.  ·  Free Zone Establishment incorporated under Amiri Decree No.8 of 2021  ·  Privacy Policy  ·  Terms of Use
+          {/* ── FOOTER ── */}
+          <footer
+            style={{
+              borderTop: '1px solid rgba(255,255,255,0.04)',
+              padding: '1.5rem 2.5rem',
+            }}
+          >
+            <p
+              style={{
+                fontSize: '0.55rem',
+                color: '#333',
+                letterSpacing: '0.06em',
+                fontFamily: 'var(--font-syne)',
+                lineHeight: 1.8,
+              }}
+            >
+              © 2026 BeatLabs FZE LLC. All rights reserved. · Free Zone
+              Establishment incorporated under Amiri Decree No.8 of 2021 ·
+              Privacy Policy · Terms of Use
             </p>
-          </div>
-        </footer>
-
+          </footer>
+        </div>
       </main>
     </>
   )
