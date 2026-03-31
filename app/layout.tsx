@@ -16,25 +16,26 @@ const syne = Syne({
 })
 
 export const metadata: Metadata = {
-  title: 'beatLabs — Digital Studio. Dubai, UAE.',
-  description: 'beatLabs is a Dubai-based digital studio building independent brands — apps, agencies, and creative platforms. Home of Nibango, WebVanguard, TrueLoveCreative, and Estrela.photo.',
+  title: 'beatLabs — Digital Studio. Ajman, UAE.',
+  description: 'beatLabs (BeatLabs FZE LLC) is a UAE-registered digital studio building apps, agencies, and creative brands. Home of Nibango, SubTrackr, WebVanguard, TrueLoveCreative, and Estrela.photo.',
   keywords: [
-    'beatLabs', 'digital studio Dubai', 'UAE startup studio', 'tech studio Dubai',
-    'Nibango', 'WebVanguard', 'TrueLoveCreative', 'Estrela photo',
-    'app development Dubai', 'startup Dubai', 'digital brands UAE',
-    'web design Dubai', 'marketplace app UAE', 'creative studio Dubai',
+    'beatLabs', 'digital studio UAE', 'UAE startup studio', 'tech studio Ajman',
+    'Nibango', 'SubTrackr', 'WebVanguard', 'TrueLoveCreative', 'Estrela photo',
+    'app development UAE', 'startup Ajman', 'digital brands UAE',
+    'web design Dubai', 'marketplace app UAE', 'creative studio UAE',
+    'BeatLabs FZE', 'Ajman Media City Free Zone',
   ],
   authors: [{ name: 'beatLabs', url: 'https://beatlabs.ae' }],
   creator: 'beatLabs',
-  publisher: 'beatLabs',
+  publisher: 'BeatLabs FZE LLC',
   robots: {
     index: true,
     follow: true,
     googleBot: { index: true, follow: true },
   },
   openGraph: {
-    title: 'beatLabs — Digital Studio. Dubai, UAE.',
-    description: 'Building independent digital brands from Dubai. Apps, agencies, platforms, creative studios.',
+    title: 'beatLabs — Digital Studio. Ajman, UAE.',
+    description: 'UAE-registered digital studio building apps, agencies, and creative brands. Home of Nibango, SubTrackr, WebVanguard, TrueLoveCreative, and Estrela.photo.',
     url: 'https://beatlabs.ae',
     siteName: 'beatLabs',
     type: 'website',
@@ -44,14 +45,14 @@ export const metadata: Metadata = {
         url: 'https://beatlabs.ae/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'beatLabs — Digital Studio Dubai',
+        alt: 'beatLabs — Digital Studio Ajman, UAE',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'beatLabs — Digital Studio. Dubai, UAE.',
-    description: 'Building independent digital brands from Dubai. Apps, agencies, platforms, creative studios.',
+    title: 'beatLabs — Digital Studio. Ajman, UAE.',
+    description: 'UAE-registered digital studio building apps, agencies, and creative brands.',
     images: ['https://beatlabs.ae/og-image.png'],
   },
   alternates: {
@@ -77,14 +78,18 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Organization",
               "name": "beatLabs",
+              "legalName": "BeatLabs FZE LLC",
               "url": "https://beatlabs.ae",
               "logo": "https://beatlabs.ae/logo.png",
-              "description": "Dubai-based digital studio building independent brands — apps, agencies, and creative platforms.",
+              "description": "UAE-registered digital studio building apps, agencies, and creative brands.",
               "email": "info@beatlabs.ae",
-              "foundingDate": "2026",
+              "telephone": "+971585324519",
+              "foundingDate": "2026-03-25",
               "address": {
                 "@type": "PostalAddress",
-                "addressLocality": "Dubai",
+                "streetAddress": "AMC-BLA-B.C-6010468, AMC Boulevard-A",
+                "addressLocality": "Ajman",
+                "addressRegion": "Ajman Media City Free Zone",
                 "addressCountry": "AE"
               },
               "sameAs": [
@@ -92,12 +97,6 @@ export default function RootLayout({
                 "https://nibango.com",
                 "https://truelovecreative.es",
                 "https://estrela.photo"
-              ],
-              "subOrganization": [
-                { "@type": "Organization", "name": "WebVanguard", "url": "https://webvanguard.co" },
-                { "@type": "Organization", "name": "Nibango", "url": "https://nibango.com" },
-                { "@type": "Organization", "name": "TrueLoveCreative", "url": "https://truelovecreative.es" },
-                { "@type": "Organization", "name": "Estrela.photo", "url": "https://estrela.photo" }
               ]
             })
           }}
