@@ -10,6 +10,9 @@
   --lime: #C8FF47;
   --grey: #1A1A1A;
   --muted: #555;
+  --mono: var(--font-mono, 'JetBrains Mono', 'Courier New', monospace);
+  --lime-dim: rgba(200,255,71,0.7);
+  --lime-border: rgba(200,255,71,0.2);
 }
 
 * {

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Bebas_Neue, Syne } from 'next/font/google'
+import { Bebas_Neue, Syne, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 
 const bebasNeue = Bebas_Neue({
@@ -12,6 +12,12 @@ const bebasNeue = Bebas_Neue({
 const syne = Syne({
   subsets: ['latin'],
   variable: '--font-syne',
+  display: 'swap',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
   display: 'swap',
 })
 
@@ -102,7 +108,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${bebasNeue.variable} ${syne.variable}`}>{children}</body>
+      <body className={`${bebasNeue.variable} ${syne.variable} ${jetbrainsMono.variable}`}>{children}</body>
     </html>
   )
 }

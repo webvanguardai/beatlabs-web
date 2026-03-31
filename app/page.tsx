@@ -3,93 +3,37 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 
-const labEntries = [
-  {
-    id: '01',
-    name: 'NIBANGO',
-    category: 'FLAGSHIP',
-    desc: 'P2P marketplace for the Gulf. Buy and sell with trust.',
-    status: 'launching',
-    statusText: 'LAUNCHING SOON',
-    url: null,
-  },
-  {
-    id: '02',
-    name: 'SUBTRACKR',
-    category: 'APPS',
-    desc: 'Track every subscription. Know what you pay and when.',
-    status: 'dev',
-    statusText: 'IN DEVELOPMENT',
-    url: null,
-  },
-  {
-    id: '03',
-    name: 'TIMEUP',
-    category: 'APPS',
-    desc: 'Focus blocks and deep work. Real accountability for your time.',
-    status: 'dev',
-    statusText: 'IN DEVELOPMENT',
-    url: null,
-  },
-  {
-    id: '04',
-    name: 'CONTRACKR',
-    category: 'APPS',
-    desc: 'Track shows, movies, comics, and books. All in one place.',
-    status: 'dev',
-    statusText: 'IN DEVELOPMENT',
-    url: null,
-  },
-  {
-    id: '05',
-    name: 'WEBVANGUARD',
-    category: 'STUDIOS',
-    desc: 'Web design agency. Built for businesses across the Gulf.',
-    status: 'live',
-    statusText: 'LIVE',
-    url: 'https://webvanguard.co',
-  },
-  {
-    id: '06',
-    name: 'TRUE LOVE',
-    category: 'STUDIOS',
-    desc: 'Brand identity and visual design built with soul.',
-    status: 'live',
-    statusText: 'LIVE',
-    url: 'https://truelovecreative.es',
-  },
-  {
-    id: '07',
-    name: 'ESTRELA',
-    category: 'STUDIOS',
-    desc: 'Artist portrait photography. Identity, presence, energy.',
-    status: 'live',
-    statusText: 'LIVE',
-    url: 'https://estrela.photo',
-  },
+const modules = [
+  { id: '001', name: 'NIBANGO', type: 'FLAGSHIP', status: 'launching', statusText: 'LAUNCHING', dot: '◉', uptime: '—', url: null },
+  { id: '002', name: 'SUBTRACKR', type: 'APP', status: 'dev', statusText: 'DEV', dot: '○', uptime: '—', url: null },
+  { id: '003', name: 'TIMEUP', type: 'APP', status: 'dev', statusText: 'DEV', dot: '○', uptime: '—', url: null },
+  { id: '004', name: 'CONTRACKR', type: 'APP', status: 'dev', statusText: 'DEV', dot: '○', uptime: '—', url: null },
+  { id: '005', name: 'WEBVANGUARD', type: 'STUDIO', status: 'live', statusText: 'LIVE', dot: '●', uptime: '99.9%', url: 'https://webvanguard.co' },
+  { id: '006', name: 'TRUE_LOVE_CRTV', type: 'STUDIO', status: 'live', statusText: 'LIVE', dot: '●', uptime: '99.9%', url: 'https://truelovecreative.es' },
+  { id: '007', name: 'ESTRELA_PHOTO', type: 'STUDIO', status: 'live', statusText: 'LIVE', dot: '●', uptime: '99.9%', url: 'https://estrela.photo' },
 ]
 
-const sidebarIndexItems = [
-  { id: '01', name: 'NIBANGO', type: 'FLAGSHIP' },
-  { id: '02', name: 'SUBTRACKR', type: 'APPS' },
-  { id: '03', name: 'TIMEUP', type: 'APPS' },
-  { id: '04', name: 'CONTRACKR', type: 'APPS' },
-  { id: '05', name: 'WEBVANGUARD', type: 'STUDIOS' },
-  { id: '06', name: 'TRUELOVE', type: 'STUDIOS' },
-  { id: '07', name: 'ESTRELA', type: 'STUDIOS' },
+const bootLines = [
+  '> INITIALIZING BEATLABS_OS...',
+  '> LOADING ENTITY: BEATLABS FZE LLC [OK]',
+  '> LICENSE: 53228 AJMAN FREE ZONE [VERIFIED]',
+  '> MODULES: 7 [LOADED]',
+  '> STATUS: OPERATIONAL',
+  '',
+  '> MISSION: WE BUILD COMPANIES. NOT PROJECTS.',
 ]
 
-const sectionIds = ['hero', 'lab', 'about', 'contact']
+const bootDelays = [0, 400, 800, 1200, 1600, 1900, 2200]
 
 export default function Home() {
   const [mousePos, setMousePos] = useState({ x: -200, y: -200 })
-  const [time, setTime] = useState('')
-  const [activeSection, setActiveSection] = useState<string>('hero')
+  const [time, setTime] = useState('00:00:00')
+  const [reportDate, setReportDate] = useState('')
+  const [visibleBootLines, setVisibleBootLines] = useState<number[]>([])
+  const [bootDone, setBootDone] = useState(false)
   const [hoveredRow, setHoveredRow] = useState<string | null>(null)
-  const [hoveredSidebarRow, setHoveredSidebarRow] = useState<string | null>(null)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const rightColRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ container: rightColRef })
+  const mainRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll()
   const lineWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%'])
 
   // Custom cursor
@@ -102,69 +46,143 @@ export default function Home() {
   // Live clock
   useEffect(() => {
     const tick = () => {
-      setTime(
-        new Date().toLocaleTimeString('en-AE', {
-          timeZone: 'Asia/Dubai',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: false,
-        })
-      )
+      const now = new Date()
+      const dxb = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Dubai' }))
+      const h = String(dxb.getHours()).padStart(2, '0')
+      const m = String(dxb.getMinutes()).padStart(2, '0')
+      const s = String(dxb.getSeconds()).padStart(2, '0')
+      setTime(`${h}:${m}:${s}`)
     }
     tick()
     const i = setInterval(tick, 1000)
     return () => clearInterval(i)
   }, [])
 
-  // IntersectionObserver for active section
+  // Report date
   useEffect(() => {
-    const container = rightColRef.current
-    if (!container) return
+    const now = new Date()
+    const y = now.getFullYear()
+    const mo = String(now.getMonth() + 1).padStart(2, '0')
+    const da = String(now.getDate()).padStart(2, '0')
+    setReportDate(`${y}-${mo}-${da}`)
+  }, [])
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id)
-          }
-        })
-      },
-      {
-        root: container,
-        rootMargin: '-30% 0px -60% 0px',
-        threshold: 0,
-      }
-    )
-
-    sectionIds.forEach((id) => {
-      const el = document.getElementById(id)
-      if (el) observer.observe(el)
+  // Boot sequence
+  useEffect(() => {
+    const timers: NodeJS.Timeout[] = []
+    bootDelays.forEach((delay, i) => {
+      timers.push(setTimeout(() => {
+        setVisibleBootLines(prev => [...prev, i])
+      }, delay))
     })
-
-    return () => observer.disconnect()
+    timers.push(setTimeout(() => setBootDone(true), 3000))
+    return () => timers.forEach(clearTimeout)
   }, [])
 
-  const scrollToSection = useCallback((id: string) => {
+  const scrollToEl = useCallback((id: string) => {
     const el = document.getElementById(id)
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }
-    setMobileMenuOpen(false)
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }, [])
 
-  const fadeUp = {
-    initial: { opacity: 0, y: 30 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, root: rightColRef },
-    transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const },
+  const mono = 'var(--mono)'
+  const lime = 'var(--lime)'
+  const bg = 'var(--black)'
+  const textColor = 'var(--lime-dim)'
+  const dimColor = 'rgba(255,255,255,0.3)'
+  const borderColor = 'var(--lime-border)'
+  const brightWhite = 'rgba(240,240,240,0.85)'
+
+  const renderBootLineContent = (line: string) => {
+    if (line === '') return <>&nbsp;</>
+    if (line.includes('[OK]')) {
+      const parts = line.split('[OK]')
+      return <>{parts[0]}<span style={{ color: lime, fontWeight: 700 }}>[OK]</span>{parts[1]}</>
+    }
+    if (line.includes('[VERIFIED]')) {
+      const parts = line.split('[VERIFIED]')
+      return <>{parts[0]}<span style={{ color: lime, fontWeight: 700 }}>[VERIFIED]</span>{parts[1]}</>
+    }
+    if (line.includes('[LOADED]')) {
+      const parts = line.split('[LOADED]')
+      return <>{parts[0]}<span style={{ color: lime, fontWeight: 700 }}>[LOADED]</span>{parts[1]}</>
+    }
+    return <>{line}</>
   }
 
-  const getStatusDot = (status: string) => {
-    if (status === 'launching') return { char: '◉', color: 'var(--lime)' }
-    if (status === 'dev') return { char: '○', color: 'var(--muted)' }
-    if (status === 'live') return { char: '●', color: 'var(--lime)' }
-    return { char: '○', color: 'var(--muted)' }
+  const ModuleRow = ({ mod }: { mod: typeof modules[0] }) => {
+    const isHovered = hoveredRow === mod.id
+
+    const padName = mod.name.padEnd(18, ' ')
+    const padType = mod.type.padEnd(12, ' ')
+    const padStatus = `${mod.dot} ${mod.statusText}`.padEnd(16, ' ')
+    const content = `${mod.id}   ${padName}${padType}${padStatus}${mod.uptime}`
+
+    const rowStyle: React.CSSProperties = {
+      fontFamily: mono,
+      fontSize: '0.78rem',
+      padding: '5px 4px',
+      cursor: mod.url ? 'pointer' : 'default',
+      transition: 'background 0.1s, color 0.1s',
+      whiteSpace: 'pre',
+      display: 'block',
+      background: isHovered ? lime : 'transparent',
+      color: isHovered ? bg : textColor,
+      textDecoration: 'none',
+    }
+
+    if (mod.url) {
+      return (
+        <a
+          href={mod.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={rowStyle}
+          onMouseEnter={() => setHoveredRow(mod.id)}
+          onMouseLeave={() => setHoveredRow(null)}
+        >
+          {content}
+        </a>
+      )
+    }
+
+    return (
+      <span
+        style={rowStyle}
+        onMouseEnter={() => setHoveredRow(mod.id)}
+        onMouseLeave={() => setHoveredRow(null)}
+      >
+        {content}
+      </span>
+    )
+  }
+
+  const MobileModuleCard = ({ mod }: { mod: typeof modules[0] }) => {
+    const mobileDotColor = mod.status === 'live' || mod.status === 'launching' ? lime : dimColor
+    const card = (
+      <div style={{
+        fontFamily: mono,
+        fontSize: '0.75rem',
+        color: textColor,
+        padding: '10px 0',
+        borderBottom: `1px solid ${borderColor}`,
+      }}>
+        <div style={{ color: lime, fontWeight: 700, marginBottom: '2px' }}>
+          {mod.id}  {mod.name}
+        </div>
+        <div><span style={{ color: dimColor }}>TYPE:</span> {mod.type}</div>
+        <div><span style={{ color: dimColor }}>STATUS:</span> <span style={{ color: mobileDotColor }}>{mod.dot}</span> {mod.statusText}</div>
+        {mod.uptime !== '—' && <div><span style={{ color: dimColor }}>UPTIME:</span> {mod.uptime}</div>}
+      </div>
+    )
+
+    if (mod.url) {
+      return (
+        <a href={mod.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
+          {card}
+        </a>
+      )
+    }
+    return card
   }
 
   return (
@@ -172,706 +190,390 @@ export default function Home() {
       <div className="cursor" style={{ left: mousePos.x, top: mousePos.y }} />
 
       <motion.div
-        className="fixed top-0 left-0 h-[1px] z-50"
-        style={{ width: lineWidth, background: 'var(--lime)' }}
+        className="fixed top-0 left-0 h-[1px] z-[200]"
+        style={{ width: lineWidth, background: lime }}
       />
+
+      <style jsx global>{`
+        @keyframes terminal-blink {
+          0%, 50% { opacity: 1; }
+          51%, 100% { opacity: 0; }
+        }
+        .terminal-cursor {
+          animation: terminal-blink 1s step-end infinite;
+          color: var(--lime);
+        }
+        a { text-decoration: none; color: inherit; }
+        a:visited { color: inherit; }
+
+        @media (max-width: 768px) {
+          .desktop-sidebar { display: none !important; }
+          .mobile-info-bar { display: flex !important; }
+          .desktop-topbar { display: none !important; }
+          .dashboard-grid { grid-template-columns: 1fr !important; }
+          .panel-left-desktop { display: none !important; }
+          .panel-right-desktop { padding-left: 0 !important; }
+          .module-table-desktop { display: none !important; }
+          .module-cards-mobile { display: block !important; }
+          body { font-size: 0.75rem !important; }
+        }
+
+        @media (min-width: 769px) {
+          .mobile-info-bar { display: none !important; }
+          .module-cards-mobile { display: none !important; }
+        }
+      `}</style>
+
+      {/* ── DESKTOP TOP BAR ── */}
+      <div
+        className="desktop-topbar"
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          background: bg,
+          borderBottom: `1px solid ${borderColor}`,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '8px 20px',
+          fontFamily: mono,
+          fontSize: '0.75rem',
+          color: lime,
+        }}
+      >
+        <div style={{ flex: 1 }}>BEATLABS_OS v1.0.0</div>
+        <div style={{ flex: 1, textAlign: 'center' }}>FZE://ajman-media-city/53228</div>
+        <div style={{ flex: 1, textAlign: 'right' }}>[SYS: ONLINE] [TIME: {time} DXB]</div>
+      </div>
 
       {/* ── MOBILE TOP BAR ── */}
       <div
-        className="mobile-topbar"
+        className="mobile-info-bar"
         style={{
           display: 'none',
           position: 'fixed',
           top: 0,
           left: 0,
           right: 0,
-          zIndex: 50,
-          padding: '1rem 1.5rem',
-          background: 'rgba(8,8,8,0.95)',
-          backdropFilter: 'blur(12px)',
-          borderBottom: '1px solid rgba(255,255,255,0.06)',
+          zIndex: 100,
+          background: bg,
+          borderBottom: `1px solid ${borderColor}`,
           justifyContent: 'space-between',
           alignItems: 'center',
+          padding: '8px 12px',
+          fontFamily: mono,
+          fontSize: '0.65rem',
+          color: lime,
         }}
       >
-        <img src="/logo.png" alt="beatLabs" style={{ height: '1.4rem' }} />
-        <button
-          onClick={() => {
-            setMobileMenuOpen(!mobileMenuOpen)
-            if (!mobileMenuOpen) scrollToSection('lab')
-          }}
-          style={{
-            background: 'none',
-            border: '1px solid rgba(255,255,255,0.12)',
-            color: 'var(--white)',
-            fontFamily: 'var(--font-syne)',
-            fontSize: '0.6rem',
-            letterSpacing: '0.2em',
-            padding: '0.4rem 1rem',
-            fontWeight: 700,
-          }}
-        >
-          MENU
-        </button>
+        <span>BEATLABS_OS v1.0.0</span>
+        <span>{time} DXB</span>
       </div>
 
       <main
+        ref={mainRef}
         style={{
-          background: 'var(--black)',
-          height: '100vh',
-          display: 'flex',
-          overflow: 'hidden',
+          background: bg,
+          color: textColor,
+          fontFamily: mono,
+          fontSize: '14px',
+          lineHeight: 1.6,
+          overflowX: 'hidden',
+          paddingTop: '50px',
+          maxWidth: '1100px',
+          margin: '0 auto',
+          paddingLeft: '20px',
+          paddingRight: '20px',
           cursor: 'none',
         }}
       >
-        {/* ══════════════════════════════════════════════════════ */}
-        {/* LEFT SIDEBAR — 30%, fixed                            */}
-        {/* ══════════════════════════════════════════════════════ */}
-        <aside
-          className="desktop-sidebar"
+        {/* ── BOOT SEQUENCE ── */}
+        <div style={{ padding: '30px 0 20px', minHeight: '200px' }}>
+          {bootLines.map((line, i) => (
+            <div
+              key={i}
+              style={{
+                opacity: visibleBootLines.includes(i) ? 1 : 0,
+                whiteSpace: 'pre',
+                color: lime,
+                fontFamily: mono,
+                fontSize: '0.85rem',
+                transition: 'opacity 0.1s',
+              }}
+            >
+              {renderBootLineContent(line)}
+            </div>
+          ))}
+          {/* Cursor after last boot line */}
+          <div style={{
+            opacity: visibleBootLines.includes(bootLines.length - 1) ? 1 : 0,
+            whiteSpace: 'pre',
+            color: lime,
+            fontFamily: mono,
+            fontSize: '0.85rem',
+          }}>
+            {'> '}<span className="terminal-cursor">_</span>
+          </div>
+        </div>
+
+        {/* ── SEPARATOR ── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={bootDone ? { opacity: 1 } : {}}
+          transition={{ duration: 0.3 }}
           style={{
-            width: '30%',
-            minWidth: '280px',
-            maxWidth: '380px',
-            height: '100vh',
-            position: 'relative',
-            borderRight: '1px solid rgba(255,255,255,0.06)',
-            padding: '2rem 2rem',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            flexShrink: 0,
-            overflow: 'hidden',
+            color: dimColor,
+            padding: '10px 0',
+            fontSize: '0.8rem',
+            userSelect: 'none',
           }}
         >
-          {/* Top section */}
-          <div>
-            {/* Logo */}
-            <img
-              src="/logo.png"
-              alt="beatLabs"
-              style={{ height: '1.4rem', marginBottom: '1.2rem', display: 'block' }}
-            />
+          ────────────────────────────────────────────────────────────
+        </motion.div>
 
-            {/* Live clock */}
-            <div
-              style={{
-                fontFamily: 'var(--font-syne)',
-                fontSize: '0.6rem',
-                color: 'var(--lime)',
-                letterSpacing: '0.15em',
-                marginBottom: '1.5rem',
-              }}
-            >
-              DXB {time}
-            </div>
-
-            {/* Divider */}
-            <div
-              style={{
-                height: '1px',
-                background: 'rgba(255,255,255,0.06)',
-                marginBottom: '1.5rem',
-              }}
-            />
-
-            {/* Company info */}
-            <div
-              style={{
-                fontFamily: 'var(--font-syne)',
-                fontSize: '0.6rem',
-                color: 'var(--muted)',
-                letterSpacing: '0.08em',
-                lineHeight: 1.8,
-                marginBottom: '1.5rem',
-              }}
-            >
-              BEATLABS FZE LLC
-              <br />
-              License No. 53228
-              <br />
-              Ajman Media City
-              <br />
-              Free Zone, UAE
-            </div>
-
-            {/* Divider */}
-            <div
-              style={{
-                height: '1px',
-                background: 'rgba(255,255,255,0.06)',
-                marginBottom: '1.5rem',
-              }}
-            />
-
-            {/* INDEX label */}
-            <div
-              style={{
-                fontFamily: 'var(--font-syne)',
-                fontSize: '0.55rem',
-                color: 'var(--muted)',
-                letterSpacing: '0.25em',
-                marginBottom: '1rem',
-                fontWeight: 700,
-              }}
-            >
-              INDEX
-            </div>
-
-            {/* Index rows */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
-              {sidebarIndexItems.map((item) => {
-                const isHovered = hoveredSidebarRow === item.id
-                const highlight = isHovered
-
-                return (
-                  <div
-                    key={item.id}
-                    onClick={() => scrollToSection('lab')}
-                    onMouseEnter={() => setHoveredSidebarRow(item.id)}
-                    onMouseLeave={() => setHoveredSidebarRow(null)}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      padding: '0.35rem 0.5rem',
-                      cursor: 'pointer',
-                      borderRadius: '2px',
-                      transition: 'all 0.2s',
-                      background: highlight
-                        ? 'rgba(200,255,71,0.04)'
-                        : 'transparent',
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
-                      <span
-                        style={{
-                          fontFamily: 'var(--font-syne)',
-                          fontSize: '0.6rem',
-                          color: 'var(--lime)',
-                          letterSpacing: '0.05em',
-                          fontWeight: 700,
-                          width: '1.2rem',
-                        }}
-                      >
-                        {item.id}
-                      </span>
-                      <span
-                        style={{
-                          fontFamily: 'var(--font-syne)',
-                          fontSize: '0.6rem',
-                          color: highlight ? 'var(--lime)' : 'var(--muted)',
-                          letterSpacing: '0.08em',
-                          transition: 'color 0.2s',
-                        }}
-                      >
-                        {item.name}
-                      </span>
-                    </div>
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-syne)',
-                        fontSize: '0.5rem',
-                        color: highlight ? 'var(--lime)' : 'rgba(85,85,85,0.5)',
-                        letterSpacing: '0.1em',
-                        transition: 'color 0.2s',
-                      }}
-                    >
-                      {item.type}
-                    </span>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* Bottom section */}
-          <div>
-            {/* Divider */}
-            <div
-              style={{
-                height: '1px',
-                background: 'rgba(255,255,255,0.06)',
-                marginBottom: '1.2rem',
-              }}
-            />
-            <a
-              href="mailto:info@beatlabs.ae"
-              style={{
-                fontFamily: 'var(--font-syne)',
-                fontSize: '0.6rem',
-                color: 'var(--muted)',
-                letterSpacing: '0.08em',
-                textDecoration: 'none',
-                display: 'block',
-                marginBottom: '0.6rem',
-              }}
-            >
-              info@beatlabs.ae
-            </a>
-            <div
-              style={{
-                fontFamily: 'var(--font-syne)',
-                fontSize: '0.55rem',
-                color: 'var(--lime)',
-                letterSpacing: '0.2em',
-                fontWeight: 700,
-                opacity: activeSection === 'hero' ? 1 : 0.6,
-                transition: 'opacity 0.3s',
-              }}
-            >
-              BUILD DIFFERENT.
-            </div>
-          </div>
-        </aside>
-
-        {/* ══════════════════════════════════════════════════════ */}
-        {/* RIGHT COLUMN — 70%, scrollable                        */}
-        {/* ══════════════════════════════════════════════════════ */}
-        <div
-          ref={rightColRef}
-          className="right-column"
-          style={{
-            flex: 1,
-            height: '100vh',
-            overflowY: 'auto',
-            overflowX: 'hidden',
-          }}
+        {/* ── DASHBOARD ── */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={bootDone ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.1 }}
         >
-          {/* ── SECTION 1: HERO ── */}
-          <section
-            id="hero"
+          <div
+            className="dashboard-grid"
             style={{
-              minHeight: '100vh',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              padding: '6rem 2.5rem 4rem',
-              position: 'relative',
-            }}
-          >
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <h1
-                style={{
-                  fontFamily: 'var(--font-bebas)',
-                  fontSize: 'clamp(5rem, 12vw, 13rem)',
-                  lineHeight: 0.85,
-                  letterSpacing: '-0.01em',
-                  color: 'var(--white)',
-                  marginBottom: '0',
-                }}
-              >
-                WE BUILD
-                <br />
-                COMPANIES.
-              </h1>
-              <h1
-                style={{
-                  fontFamily: 'var(--font-bebas)',
-                  fontSize: 'clamp(5rem, 12vw, 13rem)',
-                  lineHeight: 0.85,
-                  letterSpacing: '-0.01em',
-                  color: 'rgba(255,255,255,0.15)',
-                  marginTop: '0.1em',
-                }}
-              >
-                NOT PROJECTS.
-              </h1>
-            </motion.div>
-
-            {/* Bottom of hero */}
-            <div
-              style={{
-                position: 'absolute',
-                bottom: '4rem',
-                left: '2.5rem',
-                right: '2.5rem',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'flex-end',
-              }}
-            >
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-                style={{
-                  fontFamily: 'var(--font-syne)',
-                  fontSize: '0.8rem',
-                  color: 'var(--muted)',
-                  lineHeight: 1.7,
-                  maxWidth: '420px',
-                }}
-              >
-                beatLabs is the studio behind a growing ecosystem of apps,
-                agencies, and creative brands. Based in Ajman, UAE.
-              </motion.p>
-
-              {/* Scroll indicator */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1, y: [0, 8, 0] }}
-                transition={{
-                  opacity: { delay: 0.8, duration: 0.5 },
-                  y: { repeat: Infinity, duration: 1.5, ease: 'easeInOut' },
-                }}
-                onClick={() => scrollToSection('lab')}
-                style={{
-                  color: 'var(--lime)',
-                  fontSize: '1.5rem',
-                  cursor: 'pointer',
-                  lineHeight: 1,
-                }}
-              >
-                ↓
-              </motion.div>
-            </div>
-          </section>
-
-          {/* ── SECTION 2: THE LAB ── */}
-          <section
-            id="lab"
-            style={{
-              padding: '6rem 2.5rem',
-              borderTop: '1px solid rgba(255,255,255,0.06)',
-            }}
-          >
-            <motion.div {...fadeUp}>
-              <span
-                style={{
-                  fontFamily: 'var(--font-syne)',
-                  fontSize: '0.6rem',
-                  color: 'var(--lime)',
-                  letterSpacing: '0.25em',
-                  fontWeight: 700,
-                  display: 'block',
-                  marginBottom: '3rem',
-                }}
-              >
-                THE LAB — 7 PRODUCTS
-              </span>
-            </motion.div>
-
-            {/* Lab rows */}
-            <div>
-              {labEntries.map((entry, i) => {
-                const dot = getStatusDot(entry.status)
-                const isHovered = hoveredRow === entry.id
-                const isFlagship = entry.category === 'FLAGSHIP'
-
-                return (
-                  <motion.div
-                    key={entry.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, root: rightColRef }}
-                    transition={{ delay: i * 0.05, duration: 0.6 }}
-                    onMouseEnter={() => setHoveredRow(entry.id)}
-                    onMouseLeave={() => setHoveredRow(null)}
-                    style={{
-                      borderTop: '1px solid rgba(255,255,255,0.06)',
-                      padding: '1.8rem 1rem',
-                      background: isHovered
-                        ? 'rgba(200,255,71,0.04)'
-                        : 'transparent',
-                      transition: 'background 0.3s',
-                    }}
-                  >
-                    <div
-                      className="lab-row"
-                      style={{
-                        display: 'grid',
-                        gridTemplateColumns: '2.5rem 1fr auto auto auto auto',
-                        gap: '1.5rem',
-                        alignItems: 'center',
-                      }}
-                    >
-                      {/* Number */}
-                      <span
-                        style={{
-                          fontFamily: 'var(--font-syne)',
-                          fontSize: '0.65rem',
-                          color: 'var(--lime)',
-                          letterSpacing: '0.05em',
-                          fontWeight: 700,
-                        }}
-                      >
-                        {entry.id}
-                      </span>
-
-                      {/* Name */}
-                      <h3
-                        style={{
-                          fontFamily: 'var(--font-bebas)',
-                          fontSize: 'clamp(1.8rem, 3vw, 3rem)',
-                          letterSpacing: '0.03em',
-                          color: isHovered ? 'var(--lime)' : 'var(--white)',
-                          transition: 'color 0.3s',
-                          lineHeight: 1,
-                        }}
-                      >
-                        {entry.name}
-                      </h3>
-
-                      {/* Category pill */}
-                      <span
-                        style={{
-                          fontFamily: 'var(--font-syne)',
-                          fontSize: '0.5rem',
-                          fontWeight: 700,
-                          letterSpacing: '0.15em',
-                          padding: '0.25rem 0.7rem',
-                          background: isFlagship
-                            ? 'var(--lime)'
-                            : 'transparent',
-                          color: isFlagship ? 'var(--black)' : 'var(--muted)',
-                          border: isFlagship
-                            ? 'none'
-                            : '1px solid rgba(255,255,255,0.1)',
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        {entry.category}
-                      </span>
-
-                      {/* Description */}
-                      <p
-                        className="lab-row-desc"
-                        style={{
-                          fontFamily: 'var(--font-syne)',
-                          fontSize: '0.75rem',
-                          color: 'rgba(240,237,232,0.4)',
-                          lineHeight: 1.5,
-                          maxWidth: '280px',
-                          minWidth: '160px',
-                        }}
-                      >
-                        {entry.desc}
-                      </p>
-
-                      {/* Status */}
-                      <div
-                        className="lab-row-status"
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.5rem',
-                          whiteSpace: 'nowrap',
-                        }}
-                      >
-                        <span style={{ color: dot.color, fontSize: '0.7rem' }}>
-                          {dot.char}
-                        </span>
-                        <span
-                          style={{
-                            fontFamily: 'var(--font-syne)',
-                            fontSize: '0.5rem',
-                            color: dot.color,
-                            letterSpacing: '0.12em',
-                            fontWeight: 700,
-                          }}
-                        >
-                          {entry.statusText}
-                        </span>
-                      </div>
-
-                      {/* Link */}
-                      <div style={{ minWidth: '2rem', textAlign: 'right' }}>
-                        {entry.url ? (
-                          <a
-                            href={entry.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{
-                              fontFamily: 'var(--font-syne)',
-                              fontSize: '0.7rem',
-                              color: 'var(--lime)',
-                              textDecoration: 'none',
-                              fontWeight: 700,
-                            }}
-                          >
-                            →
-                          </a>
-                        ) : (
-                          <span
-                            style={{
-                              fontFamily: 'var(--font-syne)',
-                              fontSize: '0.7rem',
-                              color: 'rgba(85,85,85,0.3)',
-                            }}
-                          >
-                            —
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </motion.div>
-                )
-              })}
-              {/* Bottom border */}
-              <div
-                style={{
-                  borderTop: '1px solid rgba(255,255,255,0.06)',
-                }}
-              />
-            </div>
-          </section>
-
-          {/* ── SECTION 3: ABOUT ── */}
-          <section
-            id="about"
-            className="about-section"
-            style={{
-              padding: '6rem 2.5rem',
-              borderTop: '1px solid rgba(255,255,255,0.06)',
               display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '4rem',
-              alignItems: 'start',
+              gridTemplateColumns: '30% 70%',
+              gap: 0,
             }}
           >
-            <motion.div {...fadeUp}>
-              <h2
-                style={{
-                  fontFamily: 'var(--font-bebas)',
-                  fontSize: 'clamp(3rem, 7vw, 7rem)',
-                  lineHeight: 0.9,
-                  letterSpacing: '0.02em',
-                }}
-              >
-                <span style={{ color: 'var(--white)', display: 'block' }}>
-                  ONE
-                </span>
-                <span
-                  style={{
-                    color: 'rgba(255,255,255,0.15)',
-                    display: 'block',
-                  }}
-                >
-                  FOUNDER.
-                </span>
-                <span style={{ color: 'var(--white)', display: 'block' }}>
-                  MANY
-                </span>
-                <span
-                  style={{
-                    color: 'rgba(255,255,255,0.15)',
-                    display: 'block',
-                  }}
-                >
-                  BETS.
-                </span>
-              </h2>
-            </motion.div>
-
-            <motion.div
-              {...fadeUp}
-              transition={{ delay: 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              style={{ paddingTop: '1rem' }}
+            {/* ── LEFT PANEL (desktop only) ── */}
+            <div
+              className="panel-left-desktop"
+              style={{
+                paddingRight: '20px',
+                borderRight: `1px solid rgba(200,255,71,0.15)`,
+                fontFamily: mono,
+                fontSize: '0.8rem',
+                lineHeight: 1.5,
+              }}
             >
-              <p
-                style={{
-                  fontFamily: 'var(--font-syne)',
-                  fontSize: '0.9rem',
-                  color: 'rgba(240,237,232,0.55)',
-                  lineHeight: 1.8,
-                  marginBottom: '1.5rem',
-                }}
-              >
-                beatLabs is the holding entity behind everything I build. Each
-                project has its own identity, its own audience, its own path.
-                Some will be apps. Some agencies. Some just experiments. All of
-                them built properly — clean code, real design, business logic
-                from day one.
-              </p>
-              <p
-                style={{
-                  fontFamily: 'var(--font-syne)',
-                  fontSize: '0.9rem',
-                  color: 'rgba(240,237,232,0.55)',
-                  lineHeight: 1.8,
-                  marginBottom: '1.5rem',
-                }}
-              >
-                {"I'm Francisco Javier. I work from Ajman, UAE. I design, I code, I launch. When I need a team, I bring the right people in."}
-              </p>
-              <p
-                style={{
-                  fontFamily: 'var(--font-syne)',
-                  fontSize: '0.9rem',
-                  color: 'var(--lime)',
-                  lineHeight: 1.8,
-                  fontWeight: 700,
-                }}
-              >
-                Based in the Gulf. Building globally.
-              </p>
-            </motion.div>
-          </section>
+              {/* Entity box */}
+              <div style={{ marginBottom: '16px' }}>
+                <div style={{ color: 'rgba(200,255,71,0.3)' }}>┌─ ENTITY ──────────────────┐</div>
+                <div>│ <span style={{ color: brightWhite }}>BeatLabs FZE LLC</span>          │</div>
+                <div>│ <span style={{ color: dimColor }}>Reg:</span> <span style={{ color: brightWhite }}>53228</span>                │</div>
+                <div>│ <span style={{ color: dimColor }}>Zone:</span> <span style={{ color: brightWhite }}>Ajman Media City</span>    │</div>
+                <div>│ <span style={{ color: dimColor }}>Status:</span> <span style={{ color: lime }}>ACTIVE</span>            │</div>
+                <div>│ <span style={{ color: dimColor }}>Founded:</span> <span style={{ color: brightWhite }}>2026-03-25</span>       │</div>
+                <div style={{ color: 'rgba(200,255,71,0.3)' }}>└───────────────────────────┘</div>
+              </div>
 
-          {/* ── SECTION 4: CONTACT ── */}
-          <section
-            id="contact"
-            style={{
-              padding: '8rem 2.5rem',
-              borderTop: '1px solid rgba(255,255,255,0.06)',
-            }}
-          >
-            <motion.div {...fadeUp}>
+              {/* Contact box */}
+              <div style={{ marginBottom: '16px' }}>
+                <div style={{ color: 'rgba(200,255,71,0.3)' }}>┌─ CONTACT ─────────────────┐</div>
+                <div>│ <span style={{ color: brightWhite }}>info@beatlabs.ae</span>          │</div>
+                <div>│ <span style={{ color: brightWhite }}>+971585324519</span>             │</div>
+                <div style={{ color: 'rgba(200,255,71,0.3)' }}>└───────────────────────────┘</div>
+              </div>
+
+              {/* Navigation box */}
+              <div style={{ marginBottom: '16px' }}>
+                <div style={{ color: 'rgba(200,255,71,0.3)' }}>┌─ NAVIGATION ──────────────┐</div>
+                <div>│ <span
+                  onClick={() => scrollToEl('section-modules')}
+                  style={{ cursor: 'pointer', transition: 'color 0.1s' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = lime as string)}
+                  onMouseLeave={e => (e.currentTarget.style.color = 'inherit')}
+                >[1] MODULES</span>               │</div>
+                <div>│ <span
+                  onClick={() => scrollToEl('section-about')}
+                  style={{ cursor: 'pointer', transition: 'color 0.1s' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = lime as string)}
+                  onMouseLeave={e => (e.currentTarget.style.color = 'inherit')}
+                >[2] ABOUT</span>                 │</div>
+                <div>│ <span
+                  onClick={() => scrollToEl('section-contact')}
+                  style={{ cursor: 'pointer', transition: 'color 0.1s' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = lime as string)}
+                  onMouseLeave={e => (e.currentTarget.style.color = 'inherit')}
+                >[3] CONTACT</span>               │</div>
+                <div style={{ color: 'rgba(200,255,71,0.3)' }}>└───────────────────────────┘</div>
+              </div>
+            </div>
+
+            {/* ── RIGHT PANEL ── */}
+            <div
+              className="panel-right-desktop"
+              id="section-modules"
+              style={{ paddingLeft: '20px', fontFamily: mono }}
+            >
+              <div style={{ color: lime, fontSize: '0.8rem', marginBottom: '8px' }}>
+                MODULE_LIST &gt; STATUS_REPORT &gt; {reportDate}
+              </div>
+
+              {/* Desktop table */}
+              <div className="module-table-desktop">
+                <div style={{ fontSize: '0.75rem', color: dimColor, padding: '4px 0' }}>
+                  ID    NAME              TYPE        STATUS          UPTIME
+                </div>
+                <div style={{ color: borderColor, fontSize: '0.75rem', userSelect: 'none' }}>
+                  ────────────────────────────────────────────────────────────
+                </div>
+
+                {modules.map(mod => (
+                  <ModuleRow key={mod.id} mod={mod} />
+                ))}
+
+                <div style={{ color: borderColor, fontSize: '0.75rem', userSelect: 'none' }}>
+                  ────────────────────────────────────────────────────────────
+                </div>
+                <div style={{ fontSize: '0.75rem', color: textColor, paddingTop: '8px' }}>
+                  TOTAL: 7 | LIVE: 3 | IN_DEV: 3 | FLAGSHIP: 1
+                </div>
+              </div>
+
+              {/* Mobile cards */}
+              <div className="module-cards-mobile" style={{ display: 'none' }}>
+                {modules.map(mod => (
+                  <MobileModuleCard key={mod.id} mod={mod} />
+                ))}
+                <div style={{ fontSize: '0.7rem', color: textColor, paddingTop: '8px' }}>
+                  TOTAL: 7 | LIVE: 3 | IN_DEV: 3 | FLAGSHIP: 1
+                </div>
+              </div>
+
+              <div style={{ paddingTop: '16px', fontSize: '0.85rem', color: lime }}>
+                {'> '}<span className="terminal-cursor">_</span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ── ABOUT SECTION ── */}
+        <motion.div
+          id="section-about"
+          initial={{ opacity: 0 }}
+          animate={bootDone ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          style={{ paddingTop: '10px' }}
+        >
+          <div style={{
+            color: borderColor,
+            fontSize: '0.75rem',
+            padding: '16px 0 8px',
+            userSelect: 'none',
+          }}>
+            ────────────────────────────────────────────────────────────
+          </div>
+
+          <p style={{ color: lime, fontWeight: 700, fontSize: '0.85rem', fontFamily: mono }}>
+            {'> whoami'}
+          </p>
+          <div style={{ fontSize: '0.8rem', padding: '4px 0', lineHeight: 1.6, fontFamily: mono }}>
+            <div>
+              <span style={{ color: dimColor, display: 'inline-block', minWidth: '100px' }}>NAME:</span>
+              <span style={{ color: brightWhite }}>Francisco Javier Estrela Belmonte</span>
+            </div>
+            <div>
+              <span style={{ color: dimColor, display: 'inline-block', minWidth: '100px' }}>ROLE:</span>
+              <span style={{ color: brightWhite }}>Founder &amp; Manager, BeatLabs FZE LLC</span>
+            </div>
+            <div>
+              <span style={{ color: dimColor, display: 'inline-block', minWidth: '100px' }}>LOCATION:</span>
+              <span style={{ color: brightWhite }}>Ajman, UAE</span>
+            </div>
+            <div>
+              <span style={{ color: dimColor, display: 'inline-block', minWidth: '100px' }}>SKILLS:</span>
+              <span style={{ color: brightWhite }}>design, code, launch, repeat</span>
+            </div>
+          </div>
+
+          <br />
+          <p style={{ color: lime, fontWeight: 700, fontSize: '0.85rem', fontFamily: mono }}>
+            {'> mission'}
+          </p>
+          <div style={{
+            fontSize: '0.8rem',
+            lineHeight: 1.7,
+            color: textColor,
+            maxWidth: '600px',
+            paddingTop: '6px',
+            fontFamily: mono,
+          }}>
+            beatLabs is the holding entity behind everything I build.<br />
+            Each project has its own identity, its own audience, its own path.<br />
+            Built properly. Always.
+          </div>
+          <div style={{ paddingTop: '16px', fontSize: '0.85rem', color: lime, fontFamily: mono }}>
+            {'> '}<span className="terminal-cursor">_</span>
+          </div>
+        </motion.div>
+
+        {/* ── CONTACT SECTION ── */}
+        <motion.div
+          id="section-contact"
+          initial={{ opacity: 0 }}
+          animate={bootDone ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          style={{ paddingTop: '10px' }}
+        >
+          <div style={{
+            color: borderColor,
+            fontSize: '0.75rem',
+            padding: '16px 0 8px',
+            userSelect: 'none',
+          }}>
+            ────────────────────────────────────────────────────────────
+          </div>
+
+          <p style={{ color: lime, fontWeight: 700, fontSize: '0.85rem', fontFamily: mono }}>
+            {'> contact'}
+          </p>
+          <div style={{ fontSize: '0.8rem', paddingTop: '8px', fontFamily: mono }}>
+            <div>$ mail info@beatlabs.ae</div>
+            <div>
               <a
                 href="mailto:info@beatlabs.ae"
                 style={{
-                  fontFamily: 'var(--font-bebas)',
-                  fontSize: 'clamp(3rem, 8vw, 8rem)',
-                  color: 'var(--lime)',
+                  color: lime,
+                  fontWeight: 700,
                   textDecoration: 'none',
-                  lineHeight: 1,
-                  display: 'block',
-                  letterSpacing: '-0.01em',
+                  transition: 'opacity 0.15s',
                 }}
+                onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
+                onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
               >
-                info@beatlabs.ae
+                [CLICK TO COMPOSE →]
               </a>
-              <p
-                style={{
-                  fontFamily: 'var(--font-syne)',
-                  fontSize: '0.8rem',
-                  color: 'var(--muted)',
-                  marginTop: '1.5rem',
-                  lineHeight: 1.6,
-                }}
-              >
-                Partnership inquiries, investment, or just a conversation.
-              </p>
-            </motion.div>
-          </section>
+            </div>
+          </div>
+        </motion.div>
 
-          {/* ── FOOTER ── */}
-          <footer
-            style={{
-              borderTop: '1px solid rgba(255,255,255,0.04)',
-              padding: '1.5rem 2.5rem',
-            }}
-          >
-            <p
-              style={{
-                fontSize: '0.55rem',
-                color: '#333',
-                letterSpacing: '0.06em',
-                fontFamily: 'var(--font-syne)',
-                lineHeight: 1.8,
-              }}
-            >
-              © 2026 BeatLabs FZE LLC. All rights reserved. · Free Zone
-              Establishment incorporated under Amiri Decree No.8 of 2021 ·
-              Privacy Policy · Terms of Use
-            </p>
-          </footer>
-        </div>
+        {/* ── FOOTER ── */}
+        <motion.footer
+          initial={{ opacity: 0 }}
+          animate={bootDone ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          style={{
+            padding: '30px 0 20px',
+            fontSize: '0.7rem',
+            color: dimColor,
+            textAlign: 'center',
+            lineHeight: 1.8,
+            fontFamily: mono,
+          }}
+        >
+          <div style={{ color: 'rgba(200,255,71,0.15)', userSelect: 'none' }}>
+            ─────────────────────────────────────────────────────────────
+          </div>
+          BEATLABS_OS · © 2026 BeatLabs FZE LLC · License 53228 · Ajman Media City Free Zone<br />
+          Free Zone Establishment incorporated under Amiri Decree No.8 of 2021
+          <div style={{ color: 'rgba(200,255,71,0.15)', userSelect: 'none' }}>
+            ─────────────────────────────────────────────────────────────
+          </div>
+        </motion.footer>
       </main>
     </>
   )
