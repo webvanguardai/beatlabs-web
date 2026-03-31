@@ -315,7 +315,7 @@ export default function Home() {
           {/* ─── STUDIOS ─── */}
           <div style={{ marginBottom: '4rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' }}>
-              <span style={{ fontSize: '0.6rem', color: 'var(--lime)', letterSpacing: '0.3em', fontFamily: 'var(--font-syne)', fontWeight: 700 }}>STUDIOS</span>
+              <span style={{ fontSize: '0.6rem', color: 'var(--lime)', letterSpacing: '0.3em', fontFamily: 'var(--font-syne)', fontWeight: 700 }}>CREATIVE STUDIOS</span>
               <div style={{ flex: 1, height: '1px', background: 'rgba(255,255,255,0.06)' }} />
             </div>
 
