@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useRef, useCallback } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 
 const modules = [
@@ -79,10 +79,6 @@ export default function Home() {
     return () => timers.forEach(clearTimeout)
   }, [])
 
-  const scrollToEl = useCallback((id: string) => {
-    const el = document.getElementById(id)
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }, [])
 
   const mono = 'var(--mono)'
   const lime = 'var(--lime)'
