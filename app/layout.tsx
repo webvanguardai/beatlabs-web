@@ -46,13 +46,20 @@ export const metadata: Metadata = {
     siteName: 'beatLabs',
     type: 'website',
     locale: 'en_US',
-
+    images: [
+      {
+        url: 'https://beatlabs.ae/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'beatLabs — Digital Studio Ajman, UAE',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'beatLabs — Digital Studio. Ajman, UAE.',
     description: 'UAE-registered digital studio building apps, agencies, and creative brands.',
-
+    images: ['https://beatlabs.ae/og-image.png'],
   },
   alternates: {
     canonical: 'https://beatlabs.ae',
