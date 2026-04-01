@@ -422,6 +422,21 @@ export default function Home() {
 
               {/* Mobile cards */}
               <div className="module-cards-mobile" style={{ display: 'none' }}>
+                {/* Mobile status panel */}
+                <div style={{
+                  fontFamily: mono,
+                  fontSize: '0.75rem',
+                  color: textColor,
+                  padding: '10px 0',
+                  borderBottom: `1px solid ${borderColor}`,
+                  marginBottom: '4px',
+                }}>
+                  <div style={{ color: lime, fontWeight: 700, marginBottom: '4px' }}>SYS_STATUS</div>
+                  <div><span style={{ color: dimColor }}>SYS:</span> <span style={{ color: lime }}>ONLINE</span></div>
+                  <div><span style={{ color: dimColor }}>DEPLOY:</span> <span style={{ color: brightWhite }}>2026-03-25</span></div>
+                  <div><span style={{ color: dimColor }}>UPTIME:</span> <span style={{ color: brightWhite }}>100%</span></div>
+                  <div><span style={{ color: dimColor }}>ENV:</span> <span style={{ color: brightWhite }}>PRODUCTION</span></div>
+                </div>
                 {modules.map(mod => (
                   <MobileModuleCard key={mod.id} mod={mod} />
                 ))}
