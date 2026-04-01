@@ -378,27 +378,13 @@ export default function Home() {
                 <div style={{ color: 'rgba(200,255,71,0.3)' }}>└───────────────────────────┘</div>
               </div>
 
-              {/* Navigation box */}
+              {/* Status box */}
               <div style={{ marginBottom: '16px' }}>
-                <div style={{ color: 'rgba(200,255,71,0.3)' }}>┌─ NAVIGATION ──────────────┐</div>
-                <div>│ <span
-                  onClick={() => scrollToEl('section-modules')}
-                  style={{ cursor: 'pointer', transition: 'color 0.1s' }}
-                  onMouseEnter={e => (e.currentTarget.style.color = lime as string)}
-                  onMouseLeave={e => (e.currentTarget.style.color = 'inherit')}
-                >[1] MODULES</span>               │</div>
-                <div>│ <span
-                  onClick={() => scrollToEl('section-about')}
-                  style={{ cursor: 'pointer', transition: 'color 0.1s' }}
-                  onMouseEnter={e => (e.currentTarget.style.color = lime as string)}
-                  onMouseLeave={e => (e.currentTarget.style.color = 'inherit')}
-                >[2] ABOUT</span>                 │</div>
-                <div>│ <span
-                  onClick={() => scrollToEl('section-contact')}
-                  style={{ cursor: 'pointer', transition: 'color 0.1s' }}
-                  onMouseEnter={e => (e.currentTarget.style.color = lime as string)}
-                  onMouseLeave={e => (e.currentTarget.style.color = 'inherit')}
-                >[3] CONTACT</span>               │</div>
+                <div style={{ color: 'rgba(200,255,71,0.3)' }}>┌─ STATUS ──────────────────┐</div>
+                <div>│ <span style={{ color: dimColor }}>SYS:</span>    <span style={{ color: lime }}>ONLINE</span>             │</div>
+                <div>│ <span style={{ color: dimColor }}>DEPLOY:</span> <span style={{ color: brightWhite }}>2026-03-25</span>         │</div>
+                <div>│ <span style={{ color: dimColor }}>UPTIME:</span> <span style={{ color: brightWhite }}>100%</span>              │</div>
+                <div>│ <span style={{ color: dimColor }}>ENV:</span>    <span style={{ color: brightWhite }}>PRODUCTION</span>        │</div>
                 <div style={{ color: 'rgba(200,255,71,0.3)' }}>└───────────────────────────┘</div>
               </div>
             </div>
