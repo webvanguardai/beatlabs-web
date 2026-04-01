@@ -8,9 +8,9 @@ const modules = [
   { id: '002', name: 'SUBTRACKR', type: 'APP', status: 'dev', statusText: 'DEV', dot: '○', uptime: '—', url: null },
   { id: '003', name: 'TIMEUP', type: 'APP', status: 'dev', statusText: 'DEV', dot: '○', uptime: '—', url: null },
   { id: '004', name: 'CONTRACKR', type: 'APP', status: 'dev', statusText: 'DEV', dot: '○', uptime: '—', url: null },
-  { id: '005', name: 'WEBVANGUARD', type: 'STUDIO', status: 'live', statusText: 'LIVE', dot: '●', uptime: '99.9%', url: 'https://webvanguard.co' },
-  { id: '006', name: 'TRUE_LOVE_CRTV', type: 'STUDIO', status: 'live', statusText: 'LIVE', dot: '●', uptime: '99.9%', url: 'https://truelovecreative.es' },
-  { id: '007', name: 'ESTRELA_PHOTO', type: 'STUDIO', status: 'live', statusText: 'LIVE', dot: '●', uptime: '99.9%', url: 'https://estrela.photo' },
+  { id: '005', name: 'WEBVANGUARD', type: 'STUDIO', status: 'live', statusText: 'LIVE', dot: '●', uptime: '100%', url: 'https://webvanguard.co' },
+  { id: '006', name: 'TRUE_LOVE_CRTV', type: 'STUDIO', status: 'live', statusText: 'LIVE', dot: '●', uptime: '100%', url: 'https://truelovecreative.es' },
+  { id: '007', name: 'ESTRELA_PHOTO', type: 'STUDIO', status: 'live', statusText: 'LIVE', dot: '●', uptime: '100%', url: 'https://estrela.photo' },
 ]
 
 const bootLines = [
