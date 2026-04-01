@@ -482,7 +482,7 @@ export default function Home() {
             </div>
             <div>
               <span style={{ color: dimColor, display: 'inline-block', minWidth: '100px' }}>LOCATION:</span>
-              <span style={{ color: brightWhite }}>Ajman, UAE</span>
+              <span style={{ color: brightWhite }}>Dubai, UAE</span>
             </div>
             <div>
               <span style={{ color: dimColor, display: 'inline-block', minWidth: '100px' }}>SKILLS:</span>

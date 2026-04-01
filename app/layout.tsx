@@ -22,10 +22,10 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'beatLabs — Digital Studio. Ajman, UAE.',
+  title: 'beatLabs — Digital Studio. Dubai, UAE.',
   description: 'beatLabs (BeatLabs FZE LLC) is a UAE-registered digital studio building apps, agencies, and creative brands. Home of Nibango, SubTrackr, WebVanguard, TrueLoveCreative, and Estrela.photo.',
   keywords: [
-    'beatLabs', 'digital studio UAE', 'UAE startup studio', 'tech studio Ajman',
+    'beatLabs', 'digital studio UAE', 'UAE startup studio', 'tech studio Dubai', 'digital studio Dubai',
     'Nibango', 'SubTrackr', 'WebVanguard', 'TrueLoveCreative', 'Estrela photo',
     'app development UAE', 'startup Ajman', 'digital brands UAE',
     'web design Dubai', 'marketplace app UAE', 'creative studio UAE',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true },
   },
   openGraph: {
-    title: 'beatLabs — Digital Studio. Ajman, UAE.',
+    title: 'beatLabs — Digital Studio. Dubai, UAE.',
     description: 'UAE-registered digital studio building apps, agencies, and creative brands. Home of Nibango, SubTrackr, WebVanguard, TrueLoveCreative, and Estrela.photo.',
     url: 'https://beatlabs.ae',
     siteName: 'beatLabs',
@@ -51,13 +51,13 @@ export const metadata: Metadata = {
         url: 'https://beatlabs.ae/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'beatLabs — Digital Studio Ajman, UAE',
+        alt: 'beatLabs — Digital Studio Dubai, UAE',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'beatLabs — Digital Studio. Ajman, UAE.',
+    title: 'beatLabs — Digital Studio. Dubai, UAE.',
     description: 'UAE-registered digital studio building apps, agencies, and creative brands.',
     images: ['https://beatlabs.ae/og-image.png'],
   },
