@@ -4,7 +4,7 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 
 const modules = [
-  { id: '001', name: 'NIBANGO', type: 'FLAGSHIP', status: 'launching', statusText: 'LAUNCHING', dot: '◉', uptime: '—', url: null },
+  { id: '001', name: 'NIBANGO', type: 'APP', status: 'launching', statusText: 'LAUNCHING', dot: '◉', uptime: '—', url: null },
   { id: '002', name: 'SUBTRACKR', type: 'APP', status: 'dev', statusText: 'DEV', dot: '○', uptime: '—', url: null },
   { id: '003', name: 'TIMEUP', type: 'APP', status: 'dev', statusText: 'DEV', dot: '○', uptime: '—', url: null },
   { id: '004', name: 'CONTRACKR', type: 'APP', status: 'dev', statusText: 'DEV', dot: '○', uptime: '—', url: null },
@@ -430,7 +430,7 @@ export default function Home() {
                   ────────────────────────────────────────────────────────────
                 </div>
                 <div style={{ fontSize: '0.75rem', color: textColor, paddingTop: '8px' }}>
-                  TOTAL: 7 | LIVE: 3 | IN_DEV: 3 | FLAGSHIP: 1
+                  TOTAL: 7 | LIVE: 3 | IN_DEV: 4
                 </div>
               </div>
 
@@ -440,7 +440,7 @@ export default function Home() {
                   <MobileModuleCard key={mod.id} mod={mod} />
                 ))}
                 <div style={{ fontSize: '0.7rem', color: textColor, paddingTop: '8px' }}>
-                  TOTAL: 7 | LIVE: 3 | IN_DEV: 3 | FLAGSHIP: 1
+                  TOTAL: 7 | LIVE: 3 | IN_DEV: 4
                 </div>
               </div>
 
