@@ -207,7 +207,7 @@ export default function Home() {
           .mobile-info-bar { display: flex !important; }
           .desktop-topbar { display: none !important; }
           .dashboard-grid { grid-template-columns: 1fr !important; }
-          .panel-left-desktop { display: none !important; }
+          .panel-left-desktop { display: block !important; border-right: none !important; padding-right: 0 !important; margin-bottom: 16px; overflow-x: hidden; font-size: 0.7rem !important; }
           .panel-right-desktop { padding-left: 0 !important; }
           .module-table-desktop { display: none !important; }
           .module-cards-mobile { display: block !important; }
