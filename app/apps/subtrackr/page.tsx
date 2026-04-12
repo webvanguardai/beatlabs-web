@@ -33,7 +33,7 @@ const features = [
   {
     icon: '🌍',
     title: '12 languages.',
-    desc: 'English, Spanish, Arabic, French, German, Portuguese, and more. SubTrackr speaks your language.',
+    desc: 'English, Spanish, Arabic, French, German, Portuguese, Japanese, Korean, Chinese, and more. SubTrackr speaks your language.',
   },
 ]
 
@@ -473,7 +473,7 @@ export default function SubtrackrPage() {
           {[
             { value: '5', unit: 'free', label: 'Subscriptions on free tier' },
             { value: '30+', unit: '', label: 'Currencies supported' },
-            { value: '12', unit: '', label: 'Languages' },
+            { value: '13', unit: '', label: 'Languages' },
             { value: '0', unit: 'ads', label: 'No ads. No tracking.' },
           ].map((s, i) => (
             <motion.div
@@ -533,38 +533,19 @@ export default function SubtrackrPage() {
         <motion.div
           initial="hidden" whileInView="visible" viewport={{ once: true }}
           variants={fade} custom={1}
-          style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}
+          style={{ display: 'flex', justifyContent: 'center' }}
         >
           <div style={{
-            padding: '2rem 2.5rem', borderRadius: '16px',
-            border: '1px solid rgba(255,255,255,0.08)',
-            background: 'rgba(255,255,255,0.03)',
-            textAlign: 'center', minWidth: '180px',
-          }}>
-            <div style={{ fontFamily: 'var(--font-syne)', fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Monthly</div>
-            <div style={{ fontFamily: 'var(--font-bebas)', fontSize: '2.5rem', color: '#fff', lineHeight: 1 }}>
-              $1.99<span style={{ fontSize: '0.35em', color: 'rgba(255,255,255,0.3)' }}>/mo</span>
-            </div>
-          </div>
-          <div style={{
-            padding: '2rem 2.5rem', borderRadius: '16px',
+            padding: '2.5rem 3.5rem', borderRadius: '16px',
             border: '1px solid rgba(200,255,71,0.2)',
             background: 'rgba(200,255,71,0.03)',
-            textAlign: 'center', minWidth: '180px',
-            position: 'relative',
+            textAlign: 'center',
           }}>
-            <div style={{
-              position: 'absolute', top: '-10px', left: '50%', transform: 'translateX(-50%)',
-              fontFamily: 'var(--font-syne)', fontSize: '0.5rem', fontWeight: 700,
-              color: '#000', background: 'var(--lime)',
-              padding: '0.2rem 0.8rem', borderRadius: '100px',
-              letterSpacing: '0.06em',
-            }}>
-              SAVE 58%
+            <div style={{ fontFamily: 'var(--font-bebas)', fontSize: '2.5rem', color: '#fff', lineHeight: 1, marginBottom: '0.5rem' }}>
+              Lifetime
             </div>
-            <div style={{ fontFamily: 'var(--font-syne)', fontSize: '0.6rem', color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Yearly</div>
-            <div style={{ fontFamily: 'var(--font-bebas)', fontSize: '2.5rem', color: '#fff', lineHeight: 1 }}>
-              $9.99<span style={{ fontSize: '0.35em', color: 'rgba(255,255,255,0.3)' }}>/yr</span>
+            <div style={{ fontFamily: 'var(--font-syne)', fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)', lineHeight: 1.5 }}>
+              One-time purchase. Yours forever.
             </div>
           </div>
         </motion.div>
